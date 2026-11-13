@@ -71,7 +71,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 
     if (error) throw error;
 
-    message.textContent = "Login successful! Welcome to PrimePay.";
+    window.location.href = "store.htm";
   } catch (error) {
     message.textContent = error.message || "Login failed. Please try again.";
   } finally {
