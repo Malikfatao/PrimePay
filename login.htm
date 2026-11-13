@@ -16,6 +16,8 @@ label{display:block;margin:15px 0 7px;font-size:14px}
 input{width:100%;padding:14px;border-radius:9px;border:1px solid #34485e;background:#071525;color:white;font-size:15px}
 button{width:100%;padding:15px;margin-top:23px;border:0;border-radius:9px;background:#38e58b;color:#07111f;font-size:16px;font-weight:bold}
 button:disabled{opacity:.6}
+.forgot{text-align:right;margin-top:12px}
+.forgot a{color:#38e58b;font-size:13px;text-decoration:none}
 #message{text-align:center;font-size:14px;line-height:1.5;margin-top:18px}
 .signup{text-align:center;color:#a8b6c8;font-size:14px;margin-top:22px}
 .signup a{color:#38e58b}
@@ -34,50 +36,74 @@ button:disabled{opacity:.6}
 <label>Password</label>
 <input id="password" type="password" required placeholder="Enter your password">
 
+<div class="forgot">
+<a href="#" id="forgotPassword">Forgot Password?</a>
+</div>
+
 <button id="submit" type="submit">Login</button>
 </form>
 
 <p id="message"></p>
-<p class="signup">Don't have an account? <a href="index.html">Create account</a></p>
+<p class="signup">Don't have an account? <a href="/">Create account</a></p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+const SUPABASE_URL="https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY="sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const supabaseClient=window.supabase.createClient(
+SUPABASE_URL,SUPABASE_KEY
 );
 
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+const message=document.getElementById("message");
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const message = document.getElementById("message");
-  const button = document.getElementById("submit");
+document.getElementById("loginForm").addEventListener("submit",async function(e){
+e.preventDefault();
 
-  button.disabled = true;
-  button.textContent = "Logging in...";
-  message.textContent = "";
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+const button=document.getElementById("submit");
 
-  try {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+button.disabled=true;
+button.textContent="Logging in...";
+message.textContent="";
 
-    if (error) throw error;
+try{
+const {error}=await supabaseClient.auth.signInWithPassword({
+email,password
+});
+if(error) throw error;
+window.location.href="store.htm";
+}catch(error){
+message.textContent=error.message||"Login failed. Please try again.";
+}finally{
+button.disabled=false;
+button.textContent="Login";
+}
+});
 
-    window.location.href = "store.htm";
-  } catch (error) {
-    message.textContent = error.message || "Login failed. Please try again.";
-  } finally {
-    button.disabled = false;
-    button.textContent = "Login";
-  }
+document.getElementById("forgotPassword").addEventListener("click",async function(e){
+e.preventDefault();
+
+const email=document.getElementById("email").value.trim();
+
+if(!email){
+message.textContent="Please enter your email address first.";
+return;
+}
+
+message.textContent="Sending password reset email...";
+
+try{
+const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
+redirectTo:window.location.origin+"/reset-password.htm"
+});
+if(error) throw error;
+message.textContent="If the account exists, a password reset email will be sent. Check your inbox and spam folder.";
+}catch(error){
+message.textContent=error.message||"Could not send reset email. Please try again.";
+}
 });
 </script>
 </body>
