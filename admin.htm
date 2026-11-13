@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimePay Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#07111f;color:white;font-family:Arial,sans-serif}
+.container{max-width:700px;margin:auto}
+h2{color:#38e58b}
+.card{background:#101e30;padding:18px;border-radius:12px;margin:15px 0}
+.muted{color:#b9c6d5;overflow-wrap:anywhere}
+.status{color:#f5c66b;font-weight:bold}
+button{padding:12px;background:#38e58b;border:0;border-radius:8px;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>PrimePay Admin</h2>
+<h3>Deposit Requests</h3>
+<p class="muted" id="message">Loading deposits...</p>
+<div id="deposits"></div>
+<button onclick="loadDeposits()">Refresh</button>
+</div>
+
+<script>
+const SUPABASE_URL="https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY="sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+async function loadDeposits(){
+ const message=document.getElementById("message");
+ const container=document.getElementById("deposits");
+ message.textContent="Loading deposits...";
+ container.innerHTML="";
+
+ try{
+  const {data:userData,error:userError}=await client.auth.getUser();
+  if(userError||!userData.user){
+   message.textContent="Please log in first.";
+   return;
+  }
+
+  if(userData.user.app_metadata?.role!=="admin"){
+   message.textContent="Administrator access required.";
+   return;
+  }
+
+  const {data,error}=await client
+   .from("deposit_requests")
+   .select("id,user_id,amount,transaction_reference,status,created_at")
+   .order("created_at",{ascending:false});
+
+  if(error) throw error;
+
+  if(!data.length){
+   message.textContent="No deposit requests found.";
+   return;
+  }
+
+  message.textContent=data.length+" deposit request(s) found.";
+
+  data.forEach(item=>{
+   const card=document.createElement("div");
+   card.className="card";
+
+   const amount=document.createElement("h3");
+   amount.textContent="GH₵ "+Number(item.amount).toFixed(2);
+
+   const user=document.createElement("p");
+   user.className="muted";
+   user.textContent="Customer ID: "+item.user_id;
+
+   const ref=document.createElement("p");
+   ref.className="muted";
+   ref.textContent="Transaction ID: "+item.transaction_reference;
+
+   const status=document.createElement("p");
+   status.className="status";
+   status.textContent="Status: "+item.status.toUpperCase();
+
+   const date=document.createElement("p");
+   date.className="muted";
+   date.textContent=new Date(item.created_at).toLocaleString();
+
+   card.append(amount,user,ref,status,date);
+   container.appendChild(card);
+  });
+
+ }catch(error){
+  message.textContent="Error: "+error.message;
+ }
+}
+
+loadDeposits();
+</script>
+</body>
+</html>
