@@ -3,258 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>PrimePay | Digital Payments</title>
+  <title>PrimePay | Your Money, Smarter</title>
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #070b14;
+      background: #07111f;
       color: white;
-      line-height: 1.6;
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 7%;
-      border-bottom: 1px solid #1c2433;
+      padding: 18px 7%;
+      background: #0d1b2d;
+      position: sticky;
+      top: 0;
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
-    }
-
-    .logo span {
-      color: #8b5cf6;
+      color: #38e58b;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin-left: 20px;
+      margin-left: 15px;
       font-size: 14px;
     }
 
     .hero {
-      min-height: 600px;
-      padding: 80px 7%;
+      min-height: 85vh;
       display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      justify-content: space-between;
-      gap: 50px;
+      text-align: center;
+      padding: 30px;
     }
 
-    .hero-text {
-      max-width: 600px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #17112a;
-      color: #a78bfa;
-      padding: 8px 15px;
-      border-radius: 30px;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    h1 {
-      font-size: 55px;
+    .hero h1 {
+      font-size: 48px;
+      max-width: 700px;
       line-height: 1.1;
-      margin-bottom: 20px;
     }
 
-    h1 span {
-      color: #8b5cf6;
+    .hero h1 span {
+      color: #38e58b;
     }
 
-    .hero-text p {
-      color: #aab2c0;
-      font-size: 18px;
-      margin-bottom: 30px;
+    .hero p {
+      color: #b8c5d6;
+      max-width: 600px;
+      margin: 20px 0;
+      line-height: 1.6;
     }
 
-    .buttons a {
-      display: inline-block;
-      padding: 14px 25px;
-      border-radius: 10px;
-      text-decoration: none;
-      margin-right: 10px;
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 15px;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .primary {
-      background: #8b5cf6;
-      color: white;
+      background: #38e58b;
+      color: #07111f;
     }
 
     .secondary {
-      border: 1px solid #30394a;
+      background: transparent;
+      color: white;
+      border: 1px solid #38e58b;
+    }
+
+    .auth {
+      display: none;
+      min-height: 100vh;
+      padding: 50px 20px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .auth.active {
+      display: flex;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 420px;
+      background: #0d1b2d;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .auth-box h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .auth-box p {
+      text-align: center;
+      color: #b8c5d6;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #26384d;
+      background: #07111f;
       color: white;
     }
 
-    .card {
-      width: 350px;
-      height: 220px;
-      border-radius: 22px;
-      padding: 25px;
-      background: linear-gradient(135deg, #8b5cf6, #312e81);
-      box-shadow: 0 20px 60px rgba(139, 92, 246, 0.25);
+    .auth-box button {
+      width: 100%;
+      background: #38e58b;
+      color: #07111f;
     }
 
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      font-size: 23px;
-      font-weight: bold;
-    }
-
-    .chip {
-      width: 45px;
-      height: 32px;
-      background: #e5e7eb;
-      border-radius: 6px;
-      margin-top: 25px;
-    }
-
-    .number {
+    .switch {
       margin-top: 20px;
-      font-size: 20px;
-      letter-spacing: 3px;
-    }
-
-    .card-bottom {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      font-size: 13px;
-    }
-
-    .features {
-      padding: 80px 7%;
-      background: #0c111d;
       text-align: center;
+      color: #b8c5d6;
     }
 
-    .section-title {
-      font-size: 38px;
-      margin-bottom: 10px;
+    .switch a {
+      color: #38e58b;
+      cursor: pointer;
     }
 
-    .section-text {
-      color: #9ca3af;
-      margin-bottom: 45px;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .feature {
-      background: #111827;
-      border: 1px solid #222c3c;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: left;
-    }
-
-    .feature-icon {
-      font-size: 32px;
-      margin-bottom: 15px;
-    }
-
-    .feature h3 {
-      margin-bottom: 10px;
-    }
-
-    .feature p {
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
-    .how {
-      padding: 80px 7%;
+    .back {
+      display: block;
       text-align: center;
+      margin-top: 20px;
+      color: #38e58b;
+      cursor: pointer;
     }
 
-    .steps {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
+    @media (max-width: 600px) {
+      nav {
+        padding: 16px 5%;
+      }
 
-    .step {
-      width: 250px;
-      padding: 25px;
-    }
+      .hero h1 {
+        font-size: 38px;
+      }
 
-    .step-number {
-      width: 50px;
-      height: 50px;
-      background: #8b5cf6;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: auto auto 20px;
-      font-weight: bold;
-    }
-
-    .security {
-      margin: 0 7% 80px;
-      padding: 50px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #15102b, #101827);
-      text-align: center;
-    }
-
-    .security p {
-      color: #b0b7c5;
-      margin: 15px 0 25px;
-    }
-
-    footer {
-      border-top: 1px solid #1c2433;
-      padding: 30px 7%;
-      color: #8b93a1;
-      text-align: center;
-    }
-
-    @media (max-width: 800px) {
       nav a {
-        display: none;
-      }
-
-      .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 70px 7%;
-      }
-
-      h1 {
-        font-size: 42px;
-      }
-
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        width: 100%;
-        max-width: 350px;
+        margin-left: 8px;
       }
     }
   </style>
@@ -263,130 +180,87 @@
 <body>
 
   <nav>
-    <div class="logo">Prime<span>Pay</span></div>
-
+    <div class="logo">PrimePay</div>
     <div>
-      <a href="#features">Features</a>
-      <a href="#how">How it Works</a>
-      <a href="#security">Security</a>
+      <a href="#" onclick="showHome()">Home</a>
+      <a href="#" onclick="showLogin()">Login</a>
+      <a href="#" onclick="showSignup()">Sign Up</a>
     </div>
   </nav>
 
-  <section class="hero">
-
-    <div class="hero-text">
-      <div class="tag">✨ Smart Digital Payments</div>
-
-      <h1>Your money. <span>Smarter.</span> Simpler.</h1>
-
-      <p>
-        PrimePay is a modern digital payment platform designed to make managing your digital payments simple and convenient.
-      </p>
-
-      <div class="buttons">
-        <a href="#features" class="primary">Get Started</a>
-        <a href="#how" class="secondary">Learn More</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <span>PrimePay</span>
-        <span>VIRTUAL</span>
-      </div>
-
-      <div class="chip"></div>
-
-      <div class="number">•••• •••• •••• 2026</div>
-
-      <div class="card-bottom">
-        <span>PRIMEPAY USER</span>
-        <span>DEMO</span>
-      </div>
-    </div>
-
-  </section>
-
-  <section class="features" id="features">
-
-    <h2 class="section-title">Everything you need in one place</h2>
-
-    <p class="section-text">
-      Explore the PrimePay experience.
-    </p>
-
-    <div class="feature-grid">
-
-      <div class="feature">
-        <div class="feature-icon">💳</div>
-        <h3>Digital Cards</h3>
-        <p>Manage and explore digital card features through a simple modern interface.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>Fast Experience</h3>
-        <p>A clean and responsive platform designed for speed and convenience.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h3>Security Focused</h3>
-        <p>We design the platform with privacy and responsible security practices in mind.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="how" id="how">
-
-    <h2 class="section-title">How PrimePay works</h2>
-
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-number">1</div>
-        <h3>Create an Account</h3>
-        <p>Join the PrimePay platform.</p>
-      </div>
-
-      <div class="step">
-        <div class="step-number">2</div>
-        <h3>Explore Your Dashboard</h3>
-        <p>Access your account and available features.</p>
-      </div>
-
-      <div class="step">
-        <div class="step-number">3</div>
-        <h3>Manage Your Experience</h3>
-        <p>Use supported features as they become available.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="security" id="security">
-
-    <h2>🔒 Built with security in mind</h2>
+  <section class="hero" id="home">
+    <h1>Your money.<br><span>Smarter. Simpler.</span></h1>
 
     <p>
-      PrimePay is committed to building a trustworthy and responsible digital experience.
+      PrimePay is a modern digital payment platform designed to make
+      managing your digital payments simple and convenient.
     </p>
 
-    <a href="#features" class="primary" style="padding:14px 25px;border-radius:10px;text-decoration:none;">
-      Explore PrimePay
-    </a>
-
+    <div class="buttons">
+      <button class="primary" onclick="showSignup()">Get Started</button>
+      <button class="secondary" onclick="showLogin()">Login</button>
+    </div>
   </section>
 
-  <footer>
-    <p>© 2026 PrimePay. All rights reserved.</p>
-    <p style="margin-top:8px;font-size:12px;">
-      Demo website — financial services may require licensed partners and regulatory approval.
-    </p>
-  </footer>
+  <section class="auth" id="login">
+    <div class="auth-box">
+      <h2>Welcome Back</h2>
+      <p>Login to your PrimePay account</p>
+
+      <input type="email" placeholder="Email address">
+      <input type="password" placeholder="Password">
+
+      <button>Login</button>
+
+      <div class="switch">
+        Don't have an account?
+        <a onclick="showSignup()">Create account</a>
+      </div>
+
+      <span class="back" onclick="showHome()">← Back to home</span>
+    </div>
+  </section>
+
+  <section class="auth" id="signup">
+    <div class="auth-box">
+      <h2>Create Account</h2>
+      <p>Join PrimePay today</p>
+
+      <input type="text" placeholder="Full name">
+      <input type="email" placeholder="Email address">
+      <input type="tel" placeholder="Phone number">
+      <input type="password" placeholder="Create password">
+
+      <button>Create Account</button>
+
+      <div class="switch">
+        Already have an account?
+        <a onclick="showLogin()">Login</a>
+      </div>
+
+      <span class="back" onclick="showHome()">← Back to home</span>
+    </div>
+  </section>
+
+  <script>
+    function showHome() {
+      document.getElementById("home").style.display = "flex";
+      document.getElementById("login").classList.remove("active");
+      document.getElementById("signup").classList.remove("active");
+    }
+
+    function showLogin() {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("login").classList.add("active");
+      document.getElementById("signup").classList.remove("active");
+    }
+
+    function showSignup() {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("login").classList.remove("active");
+      document.getElementById("signup").classList.add("active");
+    }
+  </script>
 
 </body>
 </html>
