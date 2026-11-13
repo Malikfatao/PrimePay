@@ -53,7 +53,7 @@ button:disabled{opacity:.6}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
-const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE"sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
@@ -80,23 +80,25 @@ document.getElementById("signupForm").addEventListener("submit", async function(
   button.textContent = "Creating account...";
   message.textContent = "";
 
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: { full_name: name, phone: phone },
-      emailRedirectTo: SUPABASE_URL
-    }
-  });
+  try {
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: { full_name: name, phone: phone },
+        emailRedirectTo: "https://smart-virtuals-ghana.vercel.app"
+      }
+    });
 
-  button.disabled = false;
-  button.textContent = "Create Account";
+    if (error) throw error;
 
-  if (error) {
-    message.textContent = error.message;
-  } else {
     message.textContent = "Registration started! Check your email for the confirmation link before logging in.";
     document.getElementById("signupForm").reset();
+  } catch (error) {
+    message.textContent = error.message || "Something went wrong. Please try again.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "Create Account";
   }
 });
 </script>
