@@ -1,407 +1,121 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimePay | Your Money, Smarter</title>
-
+<title>PrimePay | Create Account</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-
+*{box-sizing:border-box}
 body{
-  background:#07111f;
-  color:#fff;
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#07111f;
+ color:white;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
 }
-
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 7%;
-  background:#0d1b2d;
+.container{
+ width:100%;
+ max-width:420px;
+ background:#101e30;
+ padding:30px 24px;
+ border-radius:18px;
+ border:1px solid #26384c;
 }
-
 .logo{
-  font-size:24px;
-  font-weight:bold;
-  color:#38e58b;
+ text-align:center;
+ color:#38e58b;
+ font-size:32px;
+ font-weight:bold;
+ margin-bottom:12px;
 }
-
-nav a{
-  color:#fff;
-  text-decoration:none;
-  margin-left:15px;
-  cursor:pointer;
+h2{text-align:center;margin-bottom:8px}
+.sub{
+ text-align:center;
+ color:#a8b6c8;
+ font-size:14px;
+ margin-bottom:28px;
 }
-
-/* HOME */
-.hero{
-  min-height:85vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:30px;
+label{
+ display:block;
+ margin:15px 0 7px;
+ font-size:14px;
 }
-
-.hero h1{
-  font-size:48px;
-  line-height:1.1;
-}
-
-.green{color:#38e58b}
-
-.hero p{
-  color:#b8c5d6;
-  max-width:600px;
-  margin:20px 0;
-  line-height:1.6;
-}
-
-.buttons{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-button{
-  border:none;
-  padding:14px 22px;
-  border-radius:8px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.primary{
-  background:#38e58b;
-  color:#07111f;
-}
-
-.secondary{
-  background:transparent;
-  color:#fff;
-  border:1px solid #38e58b;
-}
-
-/* AUTH */
-.auth{
-  display:none;
-  min-height:85vh;
-  justify-content:center;
-  align-items:center;
-  padding:30px 20px;
-}
-
-.auth.active{display:flex}
-
-.auth-box{
-  width:100%;
-  max-width:420px;
-  background:#0d1b2d;
-  padding:30px;
-  border-radius:16px;
-}
-
-.auth-box h2{
-  text-align:center;
-  margin-bottom:10px;
-}
-
-.auth-box p{
-  text-align:center;
-  color:#b8c5d6;
-  margin-bottom:22px;
-}
-
 input{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border-radius:8px;
-  border:1px solid #26384d;
-  background:#07111f;
-  color:white;
+ width:100%;
+ padding:14px;
+ border-radius:9px;
+ border:1px solid #34485e;
+ background:#071525;
+ color:white;
+ font-size:15px;
+ outline:none;
 }
-
-.auth-box button{
-  width:100%;
-  background:#38e58b;
-  color:#07111f;
+input:focus{border-color:#38e58b}
+button{
+ width:100%;
+ padding:15px;
+ margin-top:24px;
+ border:0;
+ border-radius:9px;
+ background:#38e58b;
+ color:#07111f;
+ font-size:16px;
+ font-weight:bold;
 }
-
-.switch{
-  text-align:center;
-  margin-top:18px;
-  color:#b8c5d6;
+.login{
+ text-align:center;
+ color:#a8b6c8;
+ font-size:14px;
+ margin-top:22px;
 }
-
-.link{
-  color:#38e58b;
-  cursor:pointer;
-}
-
-/* DASHBOARD */
-.dashboard{
-  display:none;
-  min-height:100vh;
-  padding:30px 7%;
-}
-
-.dashboard.active{display:block}
-
-.welcome{
-  margin-bottom:25px;
-}
-
-.welcome p{color:#b8c5d6;margin-top:7px}
-
-.balance-card{
-  background:#38e58b;
-  color:#07111f;
-  padding:25px;
-  border-radius:18px;
-  margin-bottom:25px;
-}
-
-.balance-card p{
-  font-size:14px;
-  margin-bottom:8px;
-}
-
-.balance-card h1{
-  font-size:36px;
-}
-
-.actions{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:30px;
-}
-
-.action-card{
-  background:#0d1b2d;
-  padding:20px;
-  border-radius:12px;
-  text-align:center;
-  cursor:pointer;
-  border:1px solid #16283d;
-}
-
-.action-card:hover{
-  border-color:#38e58b;
-}
-
-.action-icon{
-  font-size:26px;
-  margin-bottom:8px;
-}
-
-.transactions{
-  background:#0d1b2d;
-  padding:20px;
-  border-radius:15px;
-}
-
-.transactions h2{
-  margin-bottom:20px;
-}
-
-.transaction{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 0;
-  border-bottom:1px solid #26384d;
-}
-
-.transaction:last-child{
-  border-bottom:none;
-}
-
-.transaction small{
-  color:#b8c5d6;
-}
-
-.amount-in{color:#38e58b}
-.amount-out{color:#ff7777}
-
-.logout{
-  margin-top:25px;
-  background:transparent;
-  border:1px solid #ff7777;
-  color:#ff7777;
-}
-
-@media(max-width:650px){
-  nav{padding:16px 5%}
-  nav a{margin-left:8px;font-size:13px}
-  .hero h1{font-size:40px}
-  .dashboard{padding:25px 5%}
-
-  .actions{
-    grid-template-columns:repeat(2,1fr);
-  }
+.login a{color:#38e58b;text-decoration:none}
+.note{
+ color:#8395a9;
+ font-size:11px;
+ text-align:center;
+ margin-top:20px;
 }
 </style>
 </head>
-
 <body>
+<div class="container">
+ <div class="logo">PrimePay</div>
+ <h2>Create your account</h2>
+ <p class="sub">Create an account to get started with PrimePay.</p>
 
-<nav>
-  <div class="logo">PrimePay</div>
-  <div id="navLinks">
-    <a onclick="showHome()">Home</a>
-    <a onclick="showLogin()">Login</a>
-    <a onclick="showSignup()">Sign Up</a>
-  </div>
-</nav>
+ <form id="signupForm">
+  <label>Full name</label>
+  <input type="text" placeholder="Enter your full name" required>
 
-<!-- HOME -->
-<section class="hero" id="home">
-  <h1>Your money.<br><span class="green">Smarter. Simpler.</span></h1>
+  <label>Email address</label>
+  <input type="email" placeholder="Enter your email" required>
 
-  <p>
-    PrimePay is a modern digital payment platform designed to make
-    managing your digital payments simple and convenient.
-  </p>
+  <label>Phone number</label>
+  <input type="tel" placeholder="Enter your phone number" required>
 
-  <div class="buttons">
-    <button class="primary" onclick="showSignup()">Get Started</button>
-    <button class="secondary" onclick="showLogin()">Login</button>
-  </div>
-</section>
+  <label>Password</label>
+  <input type="password" placeholder="Create a password" minlength="8" required>
 
-<!-- LOGIN -->
-<section class="auth" id="login">
-  <div class="auth-box">
-    <h2>Welcome Back</h2>
-    <p>Login to your PrimePay account</p>
+  <label>Confirm password</label>
+  <input type="password" placeholder="Confirm your password" minlength="8" required>
 
-    <input type="email" placeholder="Email address">
-    <input type="password" placeholder="Password">
+  <button type="submit">Create Account</button>
+ </form>
 
-    <button onclick="showDashboard()">Login</button>
-
-    <div class="switch">
-      Don't have an account?
-      <span class="link" onclick="showSignup()">Create account</span>
-    </div>
-  </div>
-</section>
-
-<!-- SIGNUP -->
-<section class="auth" id="signup">
-  <div class="auth-box">
-    <h2>Create Account</h2>
-    <p>Join PrimePay today</p>
-
-    <input type="text" placeholder="Full name">
-    <input type="email" placeholder="Email address">
-    <input type="tel" placeholder="Phone number">
-    <input type="password" placeholder="Create password">
-
-    <button onclick="showDashboard()">Create Account</button>
-
-    <div class="switch">
-      Already have an account?
-      <span class="link" onclick="showLogin()">Login</span>
-    </div>
-  </div>
-</section>
-
-<!-- DASHBOARD -->
-<section class="dashboard" id="dashboard">
-
-  <div class="welcome">
-    <h2>Hello, Malik 👋</h2>
-    <p>Welcome to your PrimePay dashboard</p>
-  </div>
-
-  <div class="balance-card">
-    <p>Available Balance</p>
-    <h1>GH₵ 0.00</h1>
-  </div>
-
-  <div class="actions">
-    <div class="action-card">
-      <div class="action-icon">💸</div>
-      <strong>Send</strong>
-    </div>
-
-    <div class="action-card">
-      <div class="action-icon">📥</div>
-      <strong>Receive</strong>
-    </div>
-
-    <div class="action-card">
-      <div class="action-icon">📱</div>
-      <strong>Mobile Money</strong>
-    </div>
-
-    <div class="action-card">
-      <div class="action-icon">➕</div>
-      <strong>Add Money</strong>
-    </div>
-  </div>
-
-  <div class="transactions">
-    <h2>Recent Transactions</h2>
-
-    <div class="transaction">
-      <div>
-        <strong>Welcome to PrimePay</strong><br>
-        <small>Your account dashboard is ready</small>
-      </div>
-      <strong class="amount-in">+ GH₵ 0.00</strong>
-    </div>
-
-    <div class="transaction">
-      <div>
-        <strong>Mobile Money</strong><br>
-        <small>Connect a payment provider to begin</small>
-      </div>
-      <strong>—</strong>
-    </div>
-  </div>
-
-  <button class="logout" onclick="showHome()">Logout</button>
-
-</section>
+ <p class="login">Already have an account? <a href="#">Login</a></p>
+ <p class="note">By continuing, you agree to PrimePay's Terms and Privacy Policy.</p>
+</div>
 
 <script>
-
-function hideAll(){
-  document.getElementById("home").style.display="none";
-  document.getElementById("login").classList.remove("active");
-  document.getElementById("signup").classList.remove("active");
-  document.getElementById("dashboard").classList.remove("active");
-}
-
-function showHome(){
-  hideAll();
-  document.getElementById("home").style.display="flex";
-}
-
-function showLogin(){
-  hideAll();
-  document.getElementById("login").classList.add("active");
-}
-
-function showSignup(){
-  hideAll();
-  document.getElementById("signup").classList.add("active");
-}
-
-function showDashboard(){
-  hideAll();
-  document.getElementById("dashboard").classList.add("active");
-}
-
+document.getElementById("signupForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ alert("The registration service is not connected yet. Your account has not been created.");
+});
 </script>
-
 </body>
 </html>
