@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimePay - Deposit</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;padding:22px}
+.container{max-width:430px;margin:35px auto;background:#101e30;padding:25px;border-radius:18px}
+h2{margin-top:0;color:#38e58b}
+p{color:#b9c6d5;line-height:1.6}
+label{display:block;margin:18px 0 8px}
+input{width:100%;padding:15px;border:1px solid #34465d;border-radius:9px;background:#07111f;color:white;font-size:16px}
+.number{background:#07111f;padding:18px;border-radius:10px;text-align:center;font-size:23px;font-weight:bold;color:#38e58b}
+button{width:100%;padding:15px;background:#38e58b;border:0;border-radius:9px;font-weight:bold;font-size:16px;margin-top:20px}
+.note{font-size:12px;color:#aab8c9}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>PrimePay</h2>
+<h3>Deposit Money</h3>
+<p>Send your deposit using MTN Mobile Money to the number below.</p>
+
+<label>MTN MoMo Number</label>
+<div class="number">0535422231</div>
+
+<label>Account Name</label>
+<p>Confirm the recipient's name on your MoMo screen before sending money.</p>
+
+<label>Amount (GHS)</label>
+<input id="amount" type="number" min="1" step="0.01" placeholder="Enter amount">
+
+<label>MTN Transaction ID</label>
+<input id="reference" type="text" placeholder="Enter transaction ID">
+
+<button onclick="submitDeposit()">Submit Deposit</button>
+
+<p class="note">Your deposit will remain pending until PrimePay administration verifies the payment. Never send money before confirming the recipient.</p>
+<p id="message"></p>
+</div>
+
+<script>
+function submitDeposit(){
+ const amount=Number(document.getElementById("amount").value);
+ const reference=document.getElementById("reference").value.trim();
+ const message=document.getElementById("message");
+
+ if(!amount||amount<=0||!reference){
+   message.textContent="Please enter a valid amount and transaction ID.";
+   return;
+ }
+
+ message.textContent="Deposit details received on this page. Secure submission is not yet connected.";
+}
+</script>
+</body>
+</html>
