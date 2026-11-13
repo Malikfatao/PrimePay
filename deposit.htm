@@ -5,30 +5,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PrimePay - Deposit</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;padding:22px}
+body{margin:0;background:#07111f;color:white;font-family:Arial;padding:22px}
 .container{max-width:430px;margin:35px auto;background:#101e30;padding:25px;border-radius:18px}
-h2{margin-top:0;color:#38e58b}
+h2{color:#38e58b}
 p{color:#b9c6d5;line-height:1.6}
 label{display:block;margin:18px 0 8px}
 input{width:100%;padding:15px;border:1px solid #34465d;border-radius:9px;background:#07111f;color:white;font-size:16px}
 .number{background:#07111f;padding:18px;border-radius:10px;text-align:center;font-size:23px;font-weight:bold;color:#38e58b}
 button{width:100%;padding:15px;background:#38e58b;border:0;border-radius:9px;font-weight:bold;font-size:16px;margin-top:20px}
-.note{font-size:12px;color:#aab8c9}
+button:disabled{opacity:.5}
+.note{font-size:12px}
+#message{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
 <div class="container">
 <h2>PrimePay</h2>
 <h3>Deposit Money</h3>
-<p>Send your deposit using MTN Mobile Money to the number below.</p>
+<p>Send your money using MTN Mobile Money to this number.</p>
 
 <label>MTN MoMo Number</label>
 <div class="number">0535422231</div>
 
-<label>Account Name</label>
-<p>Confirm the recipient's name on your MoMo screen before sending money.</p>
+<p>Confirm the recipient's name on your MoMo screen before sending.</p>
 
 <label>Amount (GHS)</label>
 <input id="amount" type="number" min="1" step="0.01" placeholder="Enter amount">
@@ -36,24 +38,67 @@ button{width:100%;padding:15px;background:#38e58b;border:0;border-radius:9px;fon
 <label>MTN Transaction ID</label>
 <input id="reference" type="text" placeholder="Enter transaction ID">
 
-<button onclick="submitDeposit()">Submit Deposit</button>
-
-<p class="note">Your deposit will remain pending until PrimePay administration verifies the payment. Never send money before confirming the recipient.</p>
+<button id="submitBtn" onclick="submitDeposit()">Submit Deposit</button>
 <p id="message"></p>
+<p class="note">Your request remains pending until the administrator verifies your payment.</p>
 </div>
 
 <script>
-function submitDeposit(){
- const amount=Number(document.getElementById("amount").value);
- const reference=document.getElementById("reference").value.trim();
- const message=document.getElementById("message");
+const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
 
- if(!amount||amount<=0||!reference){
-   message.textContent="Please enter a valid amount and transaction ID.";
-   return;
- }
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
- message.textContent="Deposit details received on this page. Secure submission is not yet connected.";
+async function submitDeposit(){
+  const button = document.getElementById("submitBtn");
+  const message = document.getElementById("message");
+  const amount = Number(document.getElementById("amount").value);
+  const reference = document.getElementById("reference").value.trim();
+
+  message.textContent = "";
+
+  if(!Number.isFinite(amount) || amount <= 0 || !reference){
+    message.textContent = "Enter a valid amount and transaction ID.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Submitting...";
+
+  try {
+    const {data: userData, error: userError} =
+      await supabaseClient.auth.getUser();
+
+    if(userError || !userData.user){
+      message.textContent = "Please log in to your PrimePay account first.";
+      return;
+    }
+
+    const {error} = await supabaseClient
+      .from("deposit_requests")
+      .insert({
+        user_id: userData.user.id,
+        amount: amount,
+        transaction_reference: reference
+      });
+
+    if(error) throw error;
+
+    message.textContent =
+      "Deposit request submitted. Your payment is awaiting verification.";
+
+    document.getElementById("amount").value = "";
+    document.getElementById("reference").value = "";
+
+  } catch(error) {
+    message.textContent = "Submission failed: " + error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Submit Deposit";
+  }
 }
 </script>
 </body>
