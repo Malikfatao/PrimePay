@@ -3,118 +3,101 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimePay | Create Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimePay - Create Account</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#07111f;
- color:white;
- min-height:100vh;
- display:flex;
- justify-content:center;
- align-items:center;
- padding:20px;
-}
-.container{
- width:100%;
- max-width:420px;
- background:#101e30;
- padding:30px 24px;
- border-radius:18px;
- border:1px solid #26384c;
-}
-.logo{
- text-align:center;
- color:#38e58b;
- font-size:32px;
- font-weight:bold;
- margin-bottom:12px;
-}
-h2{text-align:center;margin-bottom:8px}
-.sub{
- text-align:center;
- color:#a8b6c8;
- font-size:14px;
- margin-bottom:28px;
-}
-label{
- display:block;
- margin:15px 0 7px;
- font-size:14px;
-}
-input{
- width:100%;
- padding:14px;
- border-radius:9px;
- border:1px solid #34485e;
- background:#071525;
- color:white;
- font-size:15px;
- outline:none;
-}
-input:focus{border-color:#38e58b}
-button{
- width:100%;
- padding:15px;
- margin-top:24px;
- border:0;
- border-radius:9px;
- background:#38e58b;
- color:#07111f;
- font-size:16px;
- font-weight:bold;
-}
-.login{
- text-align:center;
- color:#a8b6c8;
- font-size:14px;
- margin-top:22px;
-}
-.login a{color:#38e58b;text-decoration:none}
-.note{
- color:#8395a9;
- font-size:11px;
- text-align:center;
- margin-top:20px;
-}
+body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{width:100%;max-width:420px;background:#101e30;padding:28px 22px;border-radius:18px;border:1px solid #26384c}
+.logo{text-align:center;color:#38e58b;font-size:32px;font-weight:bold}
+h2{text-align:center}
+.sub{text-align:center;color:#a8b6c8;font-size:14px;margin-bottom:25px}
+label{display:block;margin:15px 0 7px;font-size:14px}
+input{width:100%;padding:14px;border-radius:9px;border:1px solid #34485e;background:#071525;color:white;font-size:15px}
+button{width:100%;padding:15px;margin-top:22px;border:0;border-radius:9px;background:#38e58b;color:#07111f;font-size:16px;font-weight:bold}
+button:disabled{opacity:.6}
+#message{text-align:center;font-size:14px;line-height:1.5;margin-top:18px}
+.login{text-align:center;color:#a8b6c8;font-size:14px;margin-top:22px}
+.login a{color:#38e58b}
 </style>
 </head>
 <body>
 <div class="container">
- <div class="logo">PrimePay</div>
- <h2>Create your account</h2>
- <p class="sub">Create an account to get started with PrimePay.</p>
+<div class="logo">PrimePay</div>
+<h2>Create your account</h2>
+<p class="sub">Join PrimePay and get started.</p>
 
- <form id="signupForm">
-  <label>Full name</label>
-  <input type="text" placeholder="Enter your full name" required>
+<form id="signupForm">
+<label>Full name</label>
+<input id="name" required placeholder="Enter your full name">
 
-  <label>Email address</label>
-  <input type="email" placeholder="Enter your email" required>
+<label>Email address</label>
+<input id="email" type="email" required placeholder="Enter your email">
 
-  <label>Phone number</label>
-  <input type="tel" placeholder="Enter your phone number" required>
+<label>Phone number</label>
+<input id="phone" type="tel" required placeholder="Enter your phone number">
 
-  <label>Password</label>
-  <input type="password" placeholder="Create a password" minlength="8" required>
+<label>Password</label>
+<input id="password" type="password" minlength="8" required placeholder="Create a password">
 
-  <label>Confirm password</label>
-  <input type="password" placeholder="Confirm your password" minlength="8" required>
+<label>Confirm password</label>
+<input id="confirm" type="password" minlength="8" required placeholder="Confirm your password">
 
-  <button type="submit">Create Account</button>
- </form>
+<button id="submit" type="submit">Create Account</button>
+</form>
 
- <p class="login">Already have an account? <a href="#">Login</a></p>
- <p class="note">By continuing, you agree to PrimePay's Terms and Privacy Policy.</p>
+<p id="message"></p>
+<p class="login">Already have an account? <a href="#">Login</a></p>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-document.getElementById("signupForm").addEventListener("submit",function(e){
- e.preventDefault();
- alert("The registration service is not connected yet. Your account has not been created.");
+const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+document.getElementById("signupForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const password = document.getElementById("password").value;
+  const confirm = document.getElementById("confirm").value;
+  const message = document.getElementById("message");
+  const button = document.getElementById("submit");
+
+  if (password !== confirm) {
+    message.textContent = "Passwords do not match.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Creating account...";
+  message.textContent = "";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: { full_name: name, phone: phone },
+      emailRedirectTo: SUPABASE_URL
+    }
+  });
+
+  button.disabled = false;
+  button.textContent = "Create Account";
+
+  if (error) {
+    message.textContent = error.message;
+  } else {
+    message.textContent = "Registration started! Check your email for the confirmation link before logging in.";
+    document.getElementById("signupForm").reset();
+  }
 });
 </script>
 </body>
