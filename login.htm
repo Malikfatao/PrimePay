@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimePay - Login</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{width:100%;max-width:420px;background:#101e30;padding:28px 22px;border-radius:18px;border:1px solid #26384c}
+.logo{text-align:center;color:#38e58b;font-size:32px;font-weight:bold}
+h2{text-align:center}
+.sub{text-align:center;color:#a8b6c8;font-size:14px;margin-bottom:25px}
+label{display:block;margin:15px 0 7px;font-size:14px}
+input{width:100%;padding:14px;border-radius:9px;border:1px solid #34485e;background:#071525;color:white;font-size:15px}
+button{width:100%;padding:15px;margin-top:23px;border:0;border-radius:9px;background:#38e58b;color:#07111f;font-size:16px;font-weight:bold}
+button:disabled{opacity:.6}
+#message{text-align:center;font-size:14px;line-height:1.5;margin-top:18px}
+.signup{text-align:center;color:#a8b6c8;font-size:14px;margin-top:22px}
+.signup a{color:#38e58b}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">PrimePay</div>
+<h2>Welcome back</h2>
+<p class="sub">Log in to your PrimePay account.</p>
+
+<form id="loginForm">
+<label>Email address</label>
+<input id="email" type="email" required placeholder="Enter your email">
+
+<label>Password</label>
+<input id="password" type="password" required placeholder="Enter your password">
+
+<button id="submit" type="submit">Login</button>
+</form>
+
+<p id="message"></p>
+<p class="signup">Don't have an account? <a href="index.html">Create account</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("message");
+  const button = document.getElementById("submit");
+
+  button.disabled = true;
+  button.textContent = "Logging in...";
+  message.textContent = "";
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) throw error;
+
+    message.textContent = "Login successful! Welcome to PrimePay.";
+  } catch (error) {
+    message.textContent = error.message || "Login failed. Please try again.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "Login";
+  }
+});
+</script>
+</body>
+</html>
