@@ -12,6 +12,14 @@ header{padding:22px 18px;background:#101e30;display:flex;justify-content:space-b
 .logo{font-size:27px;font-weight:bold;color:#d4af37}
 header a{color:#d4af37;text-decoration:none;font-size:14px}
 main{padding:25px 16px;max-width:1000px;margin:auto}
+
+/* Gold card hero */
+.hero{margin:0 0 30px;background:linear-gradient(135deg,#151a22,#302511,#101e30);border:1px solid #a9892c;border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0008}
+.hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover}
+.hero-caption{padding:18px 20px 22px}
+.hero-caption h2{color:#f5d76e;font-size:23px;margin:0 0 8px}
+.hero-caption p{color:#c4cbd5;margin:0;font-size:14px;line-height:1.5}
+
 .eyebrow{color:#d4af37;font-size:12px;font-weight:bold;letter-spacing:2px}
 h1{font-size:30px;margin:8px 0}
 .rate{color:#a8b6c8;font-size:14px;margin-bottom:25px}
@@ -46,7 +54,12 @@ nav span{display:block;font-size:20px;margin-bottom:4px}
 .close{width:100%;padding:13px;margin-top:10px;background:#26384c;color:white;border:0;border-radius:9px}
 .notice{color:#a8b6c8;font-size:13px;line-height:1.5;margin-top:16px}
 #result{font-size:14px;line-height:1.5;margin-top:15px;color:#f5d76e}
-@media(max-width:600px){main{padding:22px 14px}.products{grid-template-columns:1fr;gap:16px}.card{min-height:260px}}
+@media(max-width:600px){
+main{padding:22px 14px}
+.products{grid-template-columns:1fr;gap:16px}
+.card{min-height:260px}
+.hero img{max-height:300px}
+}
 </style>
 </head>
 <body>
@@ -57,6 +70,16 @@ nav span{display:block;font-size:20px;margin-bottom:4px}
 </header>
 
 <main>
+
+<!-- Large gold PrimePay card image -->
+<section class="hero">
+<img src="primepay-gold-card.png" alt="PrimePay premium gold payment card">
+<div class="hero-caption">
+<h2>PrimePay — Your Money, Smarter, Simpler.</h2>
+<p>Discover a smarter way to shop and manage your digital payments.</p>
+</div>
+</section>
+
 <div class="eyebrow">STORE</div>
 <h1>Premium Cards</h1>
 <p class="rate">Live rate: 1 USD = GHS 14.50</p>
@@ -215,7 +238,6 @@ document.getElementById('result').textContent=
 });
 
 function logout(){
-event.preventDefault();
 window.location.href='login.htm';
 }
 </script>
