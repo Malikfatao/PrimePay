@@ -1,104 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PrimePay - Deposit</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#07111f;color:white;font-family:Arial;padding:22px}
 .container{max-width:430px;margin:35px auto;background:#101e30;padding:25px;border-radius:18px}
-h2{color:#38e58b}
+h2{color:#d4af37}
 p{color:#b9c6d5;line-height:1.6}
 label{display:block;margin:18px 0 8px}
 input{width:100%;padding:15px;border:1px solid #34465d;border-radius:9px;background:#07111f;color:white;font-size:16px}
-.number{background:#07111f;padding:18px;border-radius:10px;text-align:center;font-size:23px;font-weight:bold;color:#38e58b}
-button{width:100%;padding:15px;background:#38e58b;border:0;border-radius:9px;font-weight:bold;font-size:16px;margin-top:20px}
+button{width:100%;padding:15px;background:#d4af37;color:#07111f;border:0;border-radius:9px;font-weight:bold;font-size:16px;margin-top:20px}
 button:disabled{opacity:.5}
-.note{font-size:12px}
-#message{overflow-wrap:anywhere}
+#message{overflow-wrap:anywhere;margin-top:15px}
 </style>
 </head>
 <body>
 <div class="container">
 <h2>PrimePay</h2>
 <h3>Deposit Money</h3>
-<p>Send your money using MTN Mobile Money to this number.</p>
+<p>Enter the amount you want to deposit into your PrimePay wallet.</p>
 
-<label>MTN MoMo Number</label>
-<div class="number">0535422231</div>
-
-<p>Confirm the recipient's name on your MoMo screen before sending.</p>
+<label>Email Address</label>
+<input id="email" type="email" placeholder="Enter your email address">
 
 <label>Amount (GHS)</label>
 <input id="amount" type="number" min="1" step="0.01" placeholder="Enter amount">
 
-<label>MTN Transaction ID</label>
-<input id="reference" type="text" placeholder="Enter transaction ID">
+<button id="payBtn" onclick="payWithPaystack()">Continue to Payment</button>
 
-<button id="submitBtn" onclick="submitDeposit()">Submit Deposit</button>
 <p id="message"></p>
-<p class="note">Your request remains pending until the administrator verifies your payment.</p>
 </div>
 
 <script>
-const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+const PAYSTACK_PUBLIC_KEY="pk_test_1f7f682b967be25e4f5503dc8bb585c9ff91667e";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+function payWithPaystack(){
+const email=document.getElementById("email").value.trim();
+const amountGHS=Number(document.getElementById("amount").value);
+const button=document.getElementById("payBtn");
+const message=document.getElementById("message");
 
-async function submitDeposit(){
-  const button = document.getElementById("submitBtn");
-  const message = document.getElementById("message");
-  const amount = Number(document.getElementById("amount").value);
-  const reference = document.getElementById("reference").value.trim();
+message.textContent="";
 
-  message.textContent = "";
+if(!email || !email.includes("@")){
+message.textContent="Please enter a valid email address.";
+return;
+}
 
-  if(!Number.isFinite(amount) || amount <= 0 || !reference){
-    message.textContent = "Enter a valid amount and transaction ID.";
-    return;
-  }
+if(!Number.isFinite(amountGHS) || amountGHS<=0){
+message.textContent="Please enter a valid amount.";
+return;
+}
 
-  button.disabled = true;
-  button.textContent = "Submitting...";
+button.disabled=true;
+button.textContent="Opening secure payment...";
 
-  try {
-    const {data: userData, error: userError} =
-      await supabaseClient.auth.getUser();
+const popup=new PaystackPop();
 
-    if(userError || !userData.user){
-      message.textContent = "Please log in to your PrimePay account first.";
-      return;
-    }
+popup.newTransaction({
+key:PAYSTACK_PUBLIC_KEY,
+email:email,
+amount:Math.round(amountGHS*100),
+currency:"GHS",
+channels:["mobile_money","card"],
 
-    const {error} = await supabaseClient
-      .from("deposit_requests")
-      .insert({
-        user_id: userData.user.id,
-        amount: amount,
-        transaction_reference: reference
-      });
+onSuccess:(transaction)=>{
+message.textContent="Payment successful! Reference: "+transaction.reference;
+button.disabled=false;
+button.textContent="Continue to Payment";
+},
 
-    if(error) throw error;
+onCancel:()=>{
+message.textContent="Payment was cancelled.";
+button.disabled=false;
+button.textContent="Continue to Payment";
+},
 
-    message.textContent =
-      "Deposit request submitted. Your payment is awaiting verification.";
-
-    document.getElementById("amount").value = "";
-    document.getElementById("reference").value = "";
-
-  } catch(error) {
-    message.textContent = "Submission failed: " + error.message;
-  } finally {
-    button.disabled = false;
-    button.textContent = "Submit Deposit";
-  }
+onError:(error)=>{
+message.textContent="Payment error: "+error.message;
+button.disabled=false;
+button.textContent="Continue to Payment";
+}
+});
 }
 </script>
 </body>
