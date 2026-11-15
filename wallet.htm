@@ -1,100 +1,864 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>PrimePay - Wallet</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif;padding-bottom:90px}
-header{padding:22px 18px;background:#101e30;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26384c}
-.logo{font-size:27px;font-weight:bold;color:#d4af37}
-header a{color:#d4af37;text-decoration:none;font-size:14px}
-main{max-width:700px;margin:auto;padding:25px 16px}
-.eyebrow{color:#d4af37;font-size:12px;font-weight:bold;letter-spacing:2px}
-h1{margin:8px 0 20px}
-.balance-card{background:linear-gradient(135deg,#d4af37,#9b7515);color:#07111f;border-radius:20px;padding:25px;margin-bottom:25px}
-.balance-card small{font-weight:bold}
-.balance{font-size:38px;font-weight:bold;margin-top:10px}
-.card{background:#101e30;border:1px solid #26384c;border-radius:16px;padding:18px;margin-bottom:15px}
-.card h3{margin-top:0}
-.transaction{display:flex;justify-content:space-between;gap:15px;padding:15px 0;border-bottom:1px solid #26384c}
-.transaction:last-child{border-bottom:0}
-.transaction-title{font-weight:bold;margin-bottom:5px}
-.muted{color:#a8b6c8;font-size:13px}
-.amount{color:#d4af37;font-weight:bold;white-space:nowrap}
-.deposit{display:block;background:#ff8c00;color:white;text-align:center;padding:16px;border-radius:12px;font-weight:bold;text-decoration:none;margin:25px 0}
-.message{color:#a8b6c8;padding:15px 0}
-nav{position:fixed;bottom:0;left:0;right:0;background:#101e30;border-top:1px solid #26384c;display:flex;justify-content:space-around;padding:13px 5px}
-nav a{color:#a8b6c8;text-decoration:none;text-align:center;font-size:12px}
-nav a:nth-child(3){color:#d4af37}
-nav span{display:block;font-size:20px;margin-bottom:4px}
+
+body{
+margin:0;
+background:#07111f;
+color:white;
+font-family:Arial,sans-serif;
+padding-bottom:90px;
+}
+
+header{
+padding:22px 18px;
+background:#101e30;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #26384c;
+}
+
+.logo{
+font-size:27px;
+font-weight:bold;
+color:#d4af37;
+}
+
+header a{
+color:#d4af37;
+text-decoration:none;
+font-size:14px;
+}
+
+main{
+max-width:700px;
+margin:auto;
+padding:28px 16px;
+}
+
+.eyebrow{
+color:#d4af37;
+font-size:12px;
+font-weight:bold;
+letter-spacing:2px;
+margin-bottom:8px;
+}
+
+h1{
+font-size:32px;
+margin:0 0 10px;
+}
+
+.intro{
+color:#a8b6c8;
+font-size:15px;
+line-height:1.6;
+margin-bottom:25px;
+}
+
+/* WITHDRAW BUTTON */
+
+.withdraw{
+width:100%;
+background:#ff8c00;
+border:0;
+color:white;
+font-size:17px;
+font-weight:bold;
+padding:17px;
+border-radius:14px;
+cursor:pointer;
+margin-bottom:25px;
+}
+
+/* WALLET BALANCE */
+
+.balance-card{
+background:linear-gradient(135deg,#d4af37,#9b7515);
+color:#07111f;
+border-radius:22px;
+padding:25px;
+margin-bottom:18px;
+box-shadow:0 10px 30px #0005;
+}
+
+.balance-card small{
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.balance{
+font-size:40px;
+font-weight:bold;
+margin-top:12px;
+}
+
+/* STATISTICS */
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:20px;
+}
+
+.stat-card{
+background:#101e30;
+border:1px solid #26384c;
+border-radius:18px;
+padding:18px;
+}
+
+.stat-label{
+color:#a8b6c8;
+font-size:13px;
+margin-bottom:10px;
+}
+
+.stat-value{
+font-size:22px;
+font-weight:bold;
+color:#d4af37;
+}
+
+/* TRANSACTIONS */
+
+.card{
+background:#101e30;
+border:1px solid #26384c;
+border-radius:18px;
+padding:20px;
+margin-bottom:18px;
+}
+
+.card h3{
+margin:0 0 8px;
+font-size:20px;
+}
+
+.card-subtitle{
+color:#a8b6c8;
+font-size:13px;
+margin:0 0 15px;
+}
+
+.transaction{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:16px 0;
+border-bottom:1px solid #26384c;
+}
+
+.transaction:last-child{
+border-bottom:0;
+}
+
+.transaction-title{
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.muted{
+color:#a8b6c8;
+font-size:13px;
+line-height:1.4;
+}
+
+.amount{
+color:#d4af37;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.message{
+color:#a8b6c8;
+padding:15px 0;
+}
+
+/* BOTTOM NAVIGATION */
+
+nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#101e30;
+border-top:1px solid #26384c;
+display:flex;
+justify-content:space-around;
+padding:13px 5px;
+z-index:100;
+}
+
+nav a{
+color:#a8b6c8;
+text-decoration:none;
+text-align:center;
+font-size:12px;
+}
+
+nav a:nth-child(3){
+color:#d4af37;
+}
+
+nav span{
+display:block;
+font-size:20px;
+margin-bottom:4px;
+}
+
+/* WITHDRAW MODAL */
+
+.overlay{
+display:none;
+position:fixed;
+inset:0;
+background:#000c;
+z-index:300;
+align-items:flex-end;
+}
+
+.modal{
+width:100%;
+max-width:700px;
+margin:auto;
+background:#101e30;
+border:1px solid #d4af37;
+border-radius:25px 25px 0 0;
+padding:25px 20px 35px;
+}
+
+.modal-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.modal h2{
+margin:0;
+font-size:27px;
+}
+
+.close{
+background:none;
+border:0;
+color:#a8b6c8;
+font-size:32px;
+cursor:pointer;
+}
+
+.modal p{
+color:#a8b6c8;
+line-height:1.5;
+}
+
+.modal label{
+display:block;
+font-size:13px;
+font-weight:bold;
+letter-spacing:1px;
+color:#d4af37;
+margin:20px 0 8px;
+}
+
+.modal input,
+.modal select{
+width:100%;
+padding:16px;
+background:#07111f;
+color:white;
+border:1px solid #34485e;
+border-radius:12px;
+font-size:16px;
+}
+
+.modal input:focus,
+.modal select:focus{
+outline:none;
+border-color:#d4af37;
+}
+
+.submit-withdraw{
+width:100%;
+margin-top:25px;
+padding:17px;
+background:#ff8c00;
+color:white;
+border:0;
+border-radius:13px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+#withdrawResult{
+margin-top:15px;
+color:#f5d76e;
+font-size:14px;
+line-height:1.5;
+}
+
+.notice{
+font-size:12px;
+color:#8294aa !important;
+margin-top:18px;
+}
+
+@media(max-width:500px){
+
+main{
+padding:25px 14px;
+}
+
+h1{
+font-size:29px;
+}
+
+.balance{
+font-size:34px;
+}
+
+.stats{
+gap:10px;
+}
+
+.stat-card{
+padding:15px;
+}
+
+.stat-value{
+font-size:18px;
+}
+
+}
 </style>
 </head>
+
 <body>
-<header><div class="logo">PrimePay</div><a href="store.htm">Store</a></header>
+
+<header>
+<div class="logo">PrimePay</div>
+<a href="store.htm">Store</a>
+</header>
+
 <main>
-<div class="eyebrow">MY WALLET</div>
-<h1>Your Wallet</h1>
-<div class="balance-card"><small>AVAILABLE BALANCE</small><div class="balance" id="balance">GH₵ 0.00</div></div>
-<a href="deposit.htm" class="deposit">+ Deposit Money</a>
-<div class="card"><h3>Recent Transactions</h3><div id="transactions"><p class="message">Loading transactions...</p></div></div>
+
+<div class="eyebrow">WALLET</div>
+
+<h1>Withdrawals</h1>
+
+<p class="intro">
+Manage your PrimePay balance and keep track of your withdrawal activity.
+</p>
+
+<button class="withdraw" onclick="openWithdraw()">
++ Withdraw
+</button>
+
+<!-- AVAILABLE BALANCE -->
+
+<div class="balance-card">
+
+<small>WITHDRAWAL BALANCE</small>
+
+<div class="balance" id="balance">
+GH₵ 0.00
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-label">
+PENDING WITHDRAWALS
+</div>
+
+<div class="stat-value" id="pendingWithdrawals">
+GH₵ 0.00
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+TOTAL WITHDRAWN
+</div>
+
+<div class="stat-value" id="totalWithdrawn">
+GH₵ 0.00
+</div>
+
+</div>
+
+</div>
+
+<!-- RECENT ACTIVITY -->
+
+<div class="card">
+
+<h3>Recent Activity</h3>
+
+<p class="card-subtitle">
+Your latest wallet transactions.
+</p>
+
+<div id="transactions">
+
+<p class="message">
+Loading transactions...
+</p>
+
+</div>
+
+</div>
+
 </main>
+
+<!-- BOTTOM NAVIGATION -->
+
 <nav>
-<a href="store.htm"><span>▣</span>Store</a>
-<a href="#"><span>♧</span>Redeemed</a>
-<a href="wallet.htm"><span>◉</span>Wallet</a>
-<a href="#"><span>↻</span>History</a>
+
+<a href="store.htm">
+<span>▣</span>
+Store
+</a>
+
+<a href="#">
+<span>♧</span>
+Redeemed
+</a>
+
+<a href="wallet.htm">
+<span>◉</span>
+Wallet
+</a>
+
+<a href="#">
+<span>↻</span>
+History
+</a>
+
 </nav>
+
+<!-- WITHDRAWAL MODAL -->
+
+<div class="overlay" id="withdrawBox">
+
+<div class="modal">
+
+<div class="modal-top">
+
+<h2>Withdraw Money</h2>
+
+<button class="close" onclick="closeWithdraw()">
+×
+</button>
+
+</div>
+
+<p>
+Enter the details for your withdrawal request.
+</p>
+
+<label>AMOUNT (GHS)</label>
+
+<input
+id="withdrawAmount"
+type="number"
+min="1"
+step="0.01"
+placeholder="Enter amount"
+>
+
+<label>MOBILE MONEY NETWORK</label>
+
+<select id="withdrawNetwork">
+
+<option value="">
+Select network
+</option>
+
+<option value="MTN">
+MTN Mobile Money
+</option>
+
+<option value="Telecel">
+Telecel Cash
+</option>
+
+<option value="AT">
+AirtelTigo Money
+</option>
+
+</select>
+
+<label>MOBILE MONEY NUMBER</label>
+
+<input
+id="withdrawPhone"
+type="tel"
+placeholder="Enter Mobile Money number"
+>
+
+<button
+class="submit-withdraw"
+onclick="submitWithdrawal()"
+>
+Submit Withdrawal
+</button>
+
+<p id="withdrawResult"></p>
+
+<p class="notice">
+Never enter your Mobile Money PIN or OTP on PrimePay.
+Real withdrawals must be processed through an approved payment provider.
+</p>
+
+</div>
+
+</div>
+
 <script>
-const SUPABASE_URL="https://dvwcgdlbovmekrnkkqbf.supabase.co";
-const SUPABASE_KEY="sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
-const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+/* SUPABASE */
+
+const SUPABASE_URL =
+"https://dvwcgdlbovmekrnkkqbf.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+
+const client =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+/* OPEN WITHDRAWAL */
+
+function openWithdraw(){
+
+document.getElementById("withdrawBox").style.display =
+"flex";
+
+document.getElementById("withdrawResult").textContent =
+"";
+
+}
+
+/* CLOSE WITHDRAWAL */
+
+function closeWithdraw(){
+
+document.getElementById("withdrawBox").style.display =
+"none";
+
+}
+
+/* LOAD WALLET */
+
 async function loadWallet(){
-const balanceElement=document.getElementById("balance");
-const transactionsElement=document.getElementById("transactions");
+
+const balanceElement =
+document.getElementById("balance");
+
+const transactionsElement =
+document.getElementById("transactions");
+
 try{
-const {data:{user},error:userError}=await client.auth.getUser();
+
+const {
+data:{user},
+error:userError
+} =
+await client.auth.getUser();
+
 if(userError || !user){
-balanceElement.textContent="Please log in";
-transactionsElement.innerHTML="<p class='message'>Please log in to view your wallet.</p>";
+
+balanceElement.textContent =
+"Please log in";
+
+transactionsElement.innerHTML =
+"<p class='message'>Please log in to view your wallet.</p>";
+
 return;
+
 }
-const {data:wallet,error:walletError}=await client.from("wallets").select("balance").eq("user_id",user.id).maybeSingle();
+
+/* WALLET BALANCE */
+
+const {
+data:wallet,
+error:walletError
+} =
+await client
+.from("wallets")
+.select("balance")
+.eq("user_id",user.id)
+.maybeSingle();
+
 if(walletError) throw walletError;
-balanceElement.textContent="GH₵ "+Number(wallet?.balance || 0).toFixed(2);
-const {data:transactions,error:transactionError}=await client.from("wallet_transactions").select("transaction_type,amount,description,created_at").eq("user_id",user.id).order("created_at",{ascending:false}).limit(20);
-if(transactionError) throw transactionError;
-transactionsElement.innerHTML="";
-if(!transactions || transactions.length===0){
-transactionsElement.innerHTML="<p class='message'>No transactions yet.</p>";
-return;
+
+const balance =
+Number(wallet?.balance || 0);
+
+balanceElement.textContent =
+"GH₵ " + balance.toFixed(2);
+
+/* TRANSACTIONS */
+
+const {
+data:transactions,
+error:transactionError
+} =
+await client
+.from("wallet_transactions")
+.select(
+"transaction_type,amount,description,created_at"
+)
+.eq("user_id",user.id)
+.order("created_at",{ascending:false})
+.limit(20);
+
+if(transactionError)
+throw transactionError;
+
+/* CALCULATE WITHDRAWALS */
+
+let totalWithdrawn = 0;
+
+if(transactions){
+
+transactions.forEach(transaction => {
+
+if(
+transaction.transaction_type ===
+"withdrawal"
+){
+
+totalWithdrawn +=
+Number(transaction.amount || 0);
+
 }
-transactions.forEach(transaction=>{
-const row=document.createElement("div");
-row.className="transaction";
-const left=document.createElement("div");
-const title=document.createElement("div");
-title.className="transaction-title";
-title.textContent=transaction.transaction_type==="deposit"?"Deposit Approved":"Withdrawal";
-const description=document.createElement("div");
-description.className="muted";
-description.textContent=transaction.description || new Date(transaction.created_at).toLocaleString();
-left.append(title,description);
-const amount=document.createElement("div");
-amount.className="amount";
-amount.textContent=(transaction.transaction_type==="deposit"?"+":"-")+"GH₵ "+Number(transaction.amount).toFixed(2);
-row.append(left,amount);
-transactionsElement.appendChild(row);
+
 });
+
+}
+
+document.getElementById("totalWithdrawn")
+.textContent =
+"GH₵ " + totalWithdrawn.toFixed(2);
+
+/* PENDING WITHDRAWALS
+
+Currently set to zero until a withdrawal
+table/status system is connected.
+*/
+
+document.getElementById("pendingWithdrawals")
+.textContent =
+"GH₵ 0.00";
+
+/* DISPLAY TRANSACTIONS */
+
+transactionsElement.innerHTML = "";
+
+if(
+!transactions ||
+transactions.length === 0
+){
+
+transactionsElement.innerHTML =
+"<p class='message'>No transactions yet.</p>";
+
+return;
+
+}
+
+transactions.forEach(transaction => {
+
+const row =
+document.createElement("div");
+
+row.className =
+"transaction";
+
+const left =
+document.createElement("div");
+
+const title =
+document.createElement("div");
+
+title.className =
+"transaction-title";
+
+if(
+transaction.transaction_type ===
+"deposit"
+){
+
+title.textContent =
+"Deposit Approved";
+
+}else if(
+transaction.transaction_type ===
+"withdrawal"
+){
+
+title.textContent =
+"Withdrawal";
+
+}else{
+
+title.textContent =
+transaction.transaction_type;
+
+}
+
+const description =
+document.createElement("div");
+
+description.className =
+"muted";
+
+description.textContent =
+transaction.description ||
+new Date(
+transaction.created_at
+).toLocaleString();
+
+left.append(
+title,
+description
+);
+
+const amount =
+document.createElement("div");
+
+amount.className =
+"amount";
+
+const isDeposit =
+transaction.transaction_type ===
+"deposit";
+
+amount.textContent =
+(isDeposit ? "+" : "-") +
+"GH₵ " +
+Number(
+transaction.amount
+).toFixed(2);
+
+row.append(
+left,
+amount
+);
+
+transactionsElement.appendChild(
+row
+);
+
+});
+
 }catch(error){
-balanceElement.textContent="Error";
-transactionsElement.innerHTML="<p class='message'>"+error.message+"</p>";
+
+balanceElement.textContent =
+"Error";
+
+transactionsElement.innerHTML =
+"<p class='message'>" +
+error.message +
+"</p>";
+
 }
+
 }
+
+/* SUBMIT WITHDRAWAL
+
+This currently does NOT send money.
+A real payout must be connected to an
+approved payment provider and securely
+validated on the server.
+*/
+
+async function submitWithdrawal(){
+
+const amount =
+Number(
+document.getElementById(
+"withdrawAmount"
+).value
+);
+
+const network =
+document.getElementById(
+"withdrawNetwork"
+).value;
+
+const phone =
+document.getElementById(
+"withdrawPhone"
+).value.trim();
+
+const result =
+document.getElementById(
+"withdrawResult"
+);
+
+if(!amount || amount <= 0){
+
+result.textContent =
+"Please enter a valid amount.";
+
+return;
+
+}
+
+if(!network){
+
+result.textContent =
+"Please select a Mobile Money network.";
+
+return;
+
+}
+
+if(!phone){
+
+result.textContent =
+"Please enter your Mobile Money number.";
+
+return;
+
+}
+
+/* LIVE PAYOUT NOT CONNECTED */
+
+result.textContent =
+"Your withdrawal details are ready. Live Mobile Money withdrawals will only be enabled after PrimePay is connected to an approved payout provider.";
+
+}
+
 loadWallet();
+
 </script>
+
 </body>
 </html>
