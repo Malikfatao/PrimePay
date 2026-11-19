@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PrimePay - Store</title>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif;padding-bottom:90px}
@@ -35,55 +34,45 @@ h1{font-size:30px;margin:8px 0}
 .number{font-size:13px;color:#8294aa;margin-bottom:20px;letter-spacing:2px}
 .buy{width:100%;border:0;border-radius:10px;padding:15px;background:#ff8c00;color:white;font-weight:bold;font-size:15px;cursor:pointer}
 .empty{display:none;color:#a8b6c8;text-align:center;padding:25px}
-
-/* BOTTOM NAVIGATION */
 nav{position:fixed;bottom:0;left:0;right:0;background:#101e30;border-top:1px solid #26384c;display:flex;justify-content:space-around;padding:13px 3px;z-index:100}
 nav a{color:#a8b6c8;text-decoration:none;text-align:center;font-size:11px;flex:1}
 nav a:first-child{color:#d4af37}
 nav span{display:block;font-size:20px;margin-bottom:4px}
 
-/* CHECKOUT */
+/* PAYMENT POPUP */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;overflow-y:auto;align-items:flex-end}
-.modal{width:100%;background:#090d12;border:1px solid #30343a;border-radius:28px 28px 0 0;padding:30px 20px 40px;min-height:80vh}
+.modal{width:100%;background:#090d12;border:1px solid #8c7028;border-radius:28px 28px 0 0;padding:30px 20px 40px;min-height:80vh}
 .modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
-.modal h2{font-size:30px;margin:0 0 12px}
-.modal-subtitle{color:#aeb0bb;font-size:16px;line-height:1.5;margin:0 0 25px}
+.modal h2{font-size:27px;margin:0 0 12px;color:#f5d76e}
+.modal-subtitle{color:#aeb0bb;font-size:15px;line-height:1.5;margin:0 0 25px}
 .close-x{background:none;border:0;color:#b9bac2;font-size:36px;cursor:pointer;padding:0;line-height:1}
-.payment-summary{border:1px solid #292e35;border-radius:20px;padding:20px;background:#0c1015;margin-bottom:28px}
-.summary-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.payment-summary{border:1px solid #292e35;border-radius:20px;padding:20px;background:#0c1015;margin-bottom:24px}
 .summary-label{color:#aeb0bb;font-size:14px;margin-bottom:8px}
-.summary-value{font-size:22px;font-weight:bold}
-.divider{height:1px;background:#292e35;margin:25px 0}
-.pay-label{color:#aeb0bb;font-size:15px;margin-bottom:10px}
-.amount{font-size:42px;color:#d4af37;font-weight:bold}
-.form-title{font-size:13px;letter-spacing:3px;color:#b7b8c0;font-weight:bold;margin:22px 0 12px}
-.modal input{width:100%;padding:20px;border-radius:16px;border:1px solid #30343a;background:#0c1015;color:white;font-size:20px;outline:none}
+.summary-value{font-size:19px;font-weight:bold}
+.divider{height:1px;background:#292e35;margin:20px 0}
+.amount{font-size:36px;color:#d4af37;font-weight:bold}
+.instructions{background:#111e30;border:1px solid #66531e;border-radius:16px;padding:18px;margin-bottom:22px}
+.instructions h3{color:#f5d76e;margin:0 0 12px}
+.instructions p{color:#d0d4dc;font-size:14px;line-height:1.7;margin:8px 0}
+.momo-number{font-size:28px;color:#d4af37;font-weight:bold;text-align:center;margin:16px 0}
+.copy-btn{width:100%;padding:14px;border:1px solid #d4af37;border-radius:10px;background:#191609;color:#f5d76e;font-weight:bold;font-size:15px}
+.form-title{font-size:13px;letter-spacing:2px;color:#b7b8c0;font-weight:bold;margin:22px 0 12px}
+.modal input{width:100%;padding:17px;border-radius:12px;border:1px solid #30343a;background:#0c1015;color:white;font-size:17px;outline:none}
 .modal input:focus{border-color:#d4af37}
-.networks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.network-btn{background:#0c1015;color:#d8d8dd;border:1px solid #30343a;border-radius:16px;padding:18px 8px;font-size:15px;font-weight:bold;cursor:pointer}
-.network-btn.selected{border-color:#d4af37;color:#d4af37;background:#191609}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:35px}
-.cancel{border:1px solid #30343a;background:#0c1015;color:white;padding:18px;border-radius:16px;font-size:17px;font-weight:bold;cursor:pointer}
-.confirm{border:0;background:#ff7a16;color:#111;padding:18px;border-radius:16px;font-size:17px;font-weight:bold;cursor:pointer}
-.confirm:disabled{opacity:.5;cursor:not-allowed}
-#result{margin-top:20px;color:#f5d76e;line-height:1.5;font-size:14px}
-.notice{color:#8e929d;font-size:13px;line-height:1.5;margin-top:20px}
-
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+.cancel{border:1px solid #30343a;background:#0c1015;color:white;padding:16px;border-radius:12px;font-size:15px;font-weight:bold}
+.confirm{border:0;background:#ff8c00;color:#111;padding:16px;border-radius:12px;font-size:15px;font-weight:bold}
+#result{margin-top:18px;color:#f5d76e;line-height:1.6;font-size:14px}
+.notice{color:#8e929d;font-size:12px;line-height:1.6;margin-top:18px}
 @media(max-width:600px){
 main{padding:22px 14px}
 .products{grid-template-columns:1fr;gap:16px}
 .card{min-height:260px}
 .hero img{max-height:300px}
 .modal{padding:28px 18px 35px}
-.modal h2{font-size:27px}
-.summary-value{font-size:18px}
-.amount{font-size:36px}
-.networks{gap:8px}
-.network-btn{font-size:13px;padding:16px 5px}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -92,7 +81,6 @@ main{padding:22px 14px}
 </header>
 
 <main>
-
 <section class="hero">
 <img src="CF9DC762-9160-4E9E-A78E-6A3AFAC4197C.png" alt="PrimePay premium gold payment card">
 <div class="hero-caption">
@@ -175,11 +163,9 @@ main{padding:22px 14px}
 </div>
 
 </div>
-
 <p class="empty" id="empty">No cards in this category.</p>
 </main>
 
-<!-- UPDATED BOTTOM NAVIGATION -->
 <nav>
 <a href="store.htm"><span>▣</span>Store</a>
 <a href="deposit.htm"><span>＋</span>Deposit</a>
@@ -188,59 +174,51 @@ main{padding:22px 14px}
 <a href="#"><span>↻</span>History</a>
 </nav>
 
-<!-- CHECKOUT -->
+<!-- PAYMENT INSTRUCTIONS POPUP -->
 <div class="overlay" id="checkoutBox">
 <div class="modal">
-
 <div class="modal-top">
 <div>
-<h2 id="checkoutTitle">Pay for Card</h2>
-<p class="modal-subtitle">Enter the mobile money account that will approve this payment.</p>
+<h2 id="checkoutTitle">Complete your payment</h2>
+<p class="modal-subtitle">Follow the instructions below to pay for your selected product.</p>
 </div>
 <button class="close-x" onclick="closeCheckout()">×</button>
 </div>
 
 <div class="payment-summary">
-<div class="summary-row">
-<div>
-<div class="summary-label">Card value</div>
-<div class="summary-value" id="cardValue"></div>
-</div>
-<div>
-<div class="summary-label">Cedi equivalent</div>
-<div class="summary-value" id="cediValue"></div>
-</div>
-</div>
+<div class="summary-label">Selected product</div>
+<div class="summary-value" id="selectedProduct"></div>
 <div class="divider"></div>
-<div class="pay-label">Amount to pay</div>
+<div class="summary-label">Amount to pay</div>
 <div class="amount" id="productAmount"></div>
 </div>
 
-<div class="form-title">MOBILE MONEY NUMBER</div>
-<input id="phone" type="tel" inputmode="numeric" placeholder="024 000 0000">
-
-<div class="form-title">NETWORK</div>
-<div class="networks">
-<button type="button" class="network-btn" onclick="selectNetwork('MTN',this)">MTN</button>
-<button type="button" class="network-btn" onclick="selectNetwork('Telecel',this)">Telecel</button>
-<button type="button" class="network-btn" onclick="selectNetwork('AT',this)">AirtelTigo</button>
+<div class="instructions">
+<h3>MTN Mobile Money Payment</h3>
+<p>1. Send the exact amount shown above to this MTN number:</p>
+<div class="momo-number">0535422231</div>
+<button class="copy-btn" onclick="copyNumber()">COPY MTN NUMBER</button>
+<p>2. Dial <b>*170#</b> on your phone.</p>
+<p>3. Select Transfer Money and follow the instructions to send the payment.</p>
+<p>4. Return to PrimePay and enter your MoMo transaction ID below.</p>
 </div>
+
+<div class="form-title">MOMO TRANSACTION ID</div>
+<input id="reference" type="text" placeholder="Enter your transaction ID">
 
 <div class="actions">
 <button class="cancel" onclick="closeCheckout()">Cancel</button>
-<button class="confirm" onclick="confirmPayment()">💳 Confirm</button>
+<button class="confirm" onclick="submitPayment()">SUBMIT</button>
 </div>
 
 <p id="result"></p>
-<p class="notice">For your security, PrimePay will never ask for your Mobile Money PIN. Any payment authorization must happen through the official payment provider or Mobile Money prompt.</p>
-
+<p class="notice">Never share your Mobile Money PIN or OTP. Your payment must be checked and confirmed before your order can be fulfilled. This form is currently a demonstration and does not send payment details to PrimePay or confirm an order.</p>
 </div>
 </div>
 
 <script>
-let selectedProduct = "";
-let selectedAmount = 0;
-let selectedNetwork = "";
+let selectedProduct="";
+let selectedAmount=0;
 
 function filterCards(category,button){
 document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
@@ -257,14 +235,11 @@ document.getElementById('empty').style.display=shown?'none':'block';
 function checkout(product,cardValue,cediValue,amount){
 selectedProduct=product;
 selectedAmount=amount;
-selectedNetwork="";
-document.getElementById('checkoutTitle').textContent='Pay for '+product;
-document.getElementById('cardValue').textContent=cardValue;
-document.getElementById('cediValue').textContent=cediValue;
+document.getElementById('checkoutTitle').textContent='Complete your payment';
+document.getElementById('selectedProduct').textContent=product;
 document.getElementById('productAmount').textContent='GHS '+amount.toLocaleString('en-GH');
-document.getElementById('phone').value='';
+document.getElementById('reference').value='';
 document.getElementById('result').textContent='';
-document.querySelectorAll('.network-btn').forEach(btn=>btn.classList.remove('selected'));
 document.getElementById('checkoutBox').style.display='flex';
 }
 
@@ -272,26 +247,26 @@ function closeCheckout(){
 document.getElementById('checkoutBox').style.display='none';
 }
 
-function selectNetwork(network,button){
-selectedNetwork=network;
-document.querySelectorAll('.network-btn').forEach(btn=>btn.classList.remove('selected'));
-button.classList.add('selected');
+function copyNumber(){
+if(navigator.clipboard && navigator.clipboard.writeText){
+navigator.clipboard.writeText('0535422231')
+.then(()=>alert('MTN number copied!'))
+.catch(()=>alert('Please copy this number: 0535422231'));
+}else{
+alert('Please copy this number: 0535422231');
+}
 }
 
-function confirmPayment(){
-const phone=document.getElementById('phone').value.trim();
+function submitPayment(){
+const reference=document.getElementById('reference').value.trim();
 const result=document.getElementById('result');
 
-if(!phone){
-result.textContent='Please enter your Mobile Money number.';
-return;
-}
-if(!selectedNetwork){
-result.textContent='Please select your Mobile Money network.';
+if(!reference){
+result.textContent='Please enter your MoMo transaction ID.';
 return;
 }
 
-result.textContent='Payment details are ready for '+selectedProduct+'. Live payment processing will be activated when PrimePay is connected to an approved payment provider. No money has been deducted.';
+result.textContent='Your transaction ID has been entered for '+selectedProduct+'. This demo form has not sent your details to PrimePay. Please do not treat this as a completed order.';
 }
 
 function logout(){
