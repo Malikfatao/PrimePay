@@ -1,91 +1,90 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PrimePay - Deposit</title>
-<script src="https://js.paystack.co/v2/inline.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111f;color:white;font-family:Arial;padding:22px}
-.container{max-width:430px;margin:35px auto;background:#101e30;padding:25px;border-radius:18px}
-h2{color:#d4af37}
-p{color:#b9c6d5;line-height:1.6}
-label{display:block;margin:18px 0 8px}
-input{width:100%;padding:15px;border:1px solid #34465d;border-radius:9px;background:#07111f;color:white;font-size:16px}
-button{width:100%;padding:15px;background:#d4af37;color:#07111f;border:0;border-radius:9px;font-weight:bold;font-size:16px;margin-top:20px}
-button:disabled{opacity:.5}
-#message{overflow-wrap:anywhere;margin-top:15px}
+body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;padding:20px}
+.container{max-width:480px;margin:25px auto}
+h1{color:#d4af37;text-align:center}
+.subtitle{text-align:center;color:#aaa}
+.card{background:#111e30;border:1px solid #8c7028;border-radius:18px;padding:22px;margin-top:22px}
+label{display:block;margin:18px 0 8px;color:#ddd}
+input{width:100%;padding:15px;border-radius:10px;border:1px solid #39475a;background:#07111f;color:white;font-size:17px}
+.number{font-size:25px;font-weight:bold;color:#d4af37;text-align:center;margin:18px 0}
+button{width:100%;padding:15px;border:0;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:12px}
+.gold{background:#d4af37;color:#07111f}
+.orange{background:#ff9f1c;color:#111}
+.secondary{background:#24344b;color:white}
+.note{color:#bbb;font-size:13px;line-height:1.6}
+.status{margin-top:15px;padding:12px;border-radius:9px;background:#24344b;color:#ddd;display:none}
 </style>
 </head>
 <body>
 <div class="container">
-<h2>PrimePay</h2>
-<h3>Deposit Money</h3>
-<p>Enter the amount you want to deposit into your PrimePay wallet.</p>
+<h1>PRIMEPAY</h1>
+<p class="subtitle">Deposit money into your wallet</p>
 
-<label>Email Address</label>
-<input id="email" type="email" placeholder="Enter your email address">
+<div class="card">
+<h2>MTN Mobile Money</h2>
+<p class="note">Step 1: Enter the amount you want to deposit.</p>
 
-<label>Amount (GHS)</label>
+<label>Deposit Amount (GHS)</label>
 <input id="amount" type="number" min="1" step="0.01" placeholder="Enter amount">
 
-<button id="payBtn" onclick="payWithPaystack()">Continue to Payment</button>
+<p class="note">Step 2: Send your payment to this MTN number.</p>
+<div class="number">0535422231</div>
 
-<p id="message"></p>
+<button class="gold" onclick="copyNumber()">COPY MTN NUMBER</button>
+
+<p class="note">
+Step 3: Dial *170# on your phone, select Transfer Money,
+then follow the instructions to send the exact amount.
+</p>
+
+<button class="orange" onclick="dialUSSD()">OPEN *170#</button>
+
+<label>MoMo Transaction ID</label>
+<input id="reference" type="text" placeholder="Enter transaction ID">
+
+<p class="note">
+Step 4: After making payment, enter your transaction ID
+and submit your deposit request. Your payment will be
+verified before your wallet is credited.
+</p>
+
+<button class="gold" onclick="submitDeposit()">SUBMIT DEPOSIT</button>
+<div class="status" id="status"></div>
+</div>
 </div>
 
 <script>
-const PAYSTACK_PUBLIC_KEY="pk_test_1f7f682b967be25e4f5503dc8bb585c9ff91667e";
+function copyNumber(){
+navigator.clipboard.writeText("0535422231")
+.then(()=>alert("MTN number copied!"))
+.catch(()=>alert("Your MTN number is 0535422231"));
+}
+function dialUSSD(){
+window.location.href="tel:*170%23";
+}
+function submitDeposit(){
+const amount=Number(document.getElementById("amount").value);
+const reference=document.getElementById("reference").value.trim();
+const status=document.getElementById("status");
 
-function payWithPaystack(){
-const email=document.getElementById("email").value.trim();
-const amountGHS=Number(document.getElementById("amount").value);
-const button=document.getElementById("payBtn");
-const message=document.getElementById("message");
-
-message.textContent="";
-
-if(!email || !email.includes("@")){
-message.textContent="Please enter a valid email address.";
+if(!amount || amount<=0){
+alert("Enter a valid deposit amount.");
 return;
 }
-
-if(!Number.isFinite(amountGHS) || amountGHS<=0){
-message.textContent="Please enter a valid amount.";
+if(!reference){
+alert("Enter your MoMo transaction ID.");
 return;
 }
-
-button.disabled=true;
-button.textContent="Opening secure payment...";
-
-const popup=new PaystackPop();
-
-popup.newTransaction({
-key:PAYSTACK_PUBLIC_KEY,
-email:email,
-amount:Math.round(amountGHS*100),
-currency:"GHS",
-channels:["mobile_money","card"],
-
-onSuccess:(transaction)=>{
-message.textContent="Payment successful! Reference: "+transaction.reference;
-button.disabled=false;
-button.textContent="Continue to Payment";
-},
-
-onCancel:()=>{
-message.textContent="Payment was cancelled.";
-button.disabled=false;
-button.textContent="Continue to Payment";
-},
-
-onError:(error)=>{
-message.textContent="Payment error: "+error.message;
-button.disabled=false;
-button.textContent="Continue to Payment";
-}
-});
+status.style.display="block";
+status.textContent="Deposit details received on this page. Wallet credit is not yet confirmed. Please connect the secure Supabase deposit submission before accepting real payments.";
 }
 </script>
 </body>
