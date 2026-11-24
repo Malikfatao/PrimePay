@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimePay - Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --bg:#080d1b;
+  --panel:#111a2d;
+  --panel2:#17223a;
+  --purple:#8055ed;
+  --purple2:#a17aff;
+  --green:#35dc91;
+  --muted:#94a3bb;
+  --border:#26334c;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:white;
+  font-family:Arial,sans-serif;
+  padding-bottom:85px;
+}
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px;
+  border-bottom:1px solid var(--border);
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  color:white;
+}
+
+.logo span{color:var(--purple2)}
+
+.profile{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8055ed,#39246f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.container{
+  max-width:1050px;
+  margin:auto;
+  padding:20px;
+}
+
+.welcome{
+  margin:12px 0 22px;
+}
+
+.welcome h2{
+  margin:0 0 8px;
+  font-size:23px;
+}
+
+.welcome p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.balance{
+  background:linear-gradient(125deg,#38206f,#7046ce,#392b80);
+  padding:25px;
+  border-radius:20px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:20px;
+  border:1px solid #8a6ae5;
+}
+
+.balance:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:#ffffff12;
+  right:-55px;
+  top:-65px;
+}
+
+.balance-label{
+  color:#ded4ff;
+  font-size:14px;
+}
+
+.balance-amount{
+  font-size:29px;
+  font-weight:bold;
+  margin:14px 0;
+}
+
+.balance-note{
+  font-size:12px;
+  color:#ded4ff;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:20px 0 28px;
+}
+
+.action{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:17px 8px;
+  text-align:center;
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+}
+
+.action-icon{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  margin:0 auto 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  background:#8055ed25;
+  color:var(--purple2);
+}
+
+.action.green .action-icon{
+  background:#35dc9120;
+  color:var(--green);
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:25px 0 14px;
+}
+
+.section-title h3{
+  margin:0;
+  font-size:17px;
+}
+
+.section-title a{
+  color:var(--purple2);
+  font-size:13px;
+  text-decoration:none;
+}
+
+.card-panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:17px;
+  margin-bottom:18px;
+}
+
+.virtual-card{
+  background:linear-gradient(130deg,#6c42cf,#38216f,#171c49);
+  border:1px solid #9475ed;
+  border-radius:17px;
+  padding:23px;
+  min-height:180px;
+  position:relative;
+  overflow:hidden;
+}
+
+.virtual-card:after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  border:1px solid #ffffff25;
+  border-radius:50%;
+  right:-35px;
+  top:25px;
+}
+
+.card-brand{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.card-caption{
+  color:#ded4ff;
+  font-size:12px;
+  margin-top:8px;
+}
+
+.card-empty{
+  text-align:center;
+  padding:22px 10px;
+  color:var(--muted);
+  line-height:1.6;
+  font-size:13px;
+}
+
+.deposit-box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:20px;
+}
+
+.deposit-box p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+.deposit-steps{
+  padding-left:20px;
+  color:#c5cee0;
+  font-size:13px;
+  line-height:2;
+}
+
+.green-btn{
+  display:block;
+  text-align:center;
+  background:var(--green);
+  color:#071a16;
+  padding:14px;
+  border-radius:11px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:16px;
+}
+
+.status{
+  display:inline-block;
+  background:#8055ed25;
+  color:#bca5ff;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:11px;
+  margin-top:10px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#66758e;
+  font-size:12px;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#10182a;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 5px;
+  z-index:10;
+}
+
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  text-align:center;
+  font-size:10px;
+}
+
+.bottom-nav a.active{color:var(--purple2)}
+
+.bottom-nav span{
+  display:block;
+  font-size:20px;
+  margin-bottom:5px;
+}
+
+.logout{
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:#ff8b98;
+  padding:10px 14px;
+  border-radius:9px;
+  cursor:pointer;
+}
+
+#message{
+  color:#ff9aa5;
+  font-size:13px;
+  text-align:center;
+  margin:15px 0;
+}
+
+@media(min-width:700px){
+  .dashboard-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .actions{gap:18px}
+  .action{padding:22px 10px;font-size:14px}
+}
+
+@media(max-width:380px){
+  .actions{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Prime<span>Pay</span></div>
+  <button class="logout" id="logout">Logout</button>
+</header>
+
+<main class="container">
+
+  <div class="welcome">
+    <h2>Welcome, <span id="userName">User</span> 👋</h2>
+    <p>Your money. Smarter. Simpler.</p>
+  </div>
+
+  <section class="balance">
+    <div class="balance-label">My Wallet Balance</div>
+    <div class="balance-amount">Not connected</div>
+    <div class="balance-note">
+      Your real wallet balance will appear here once connected.
+    </div>
+  </section>
+
+  <div class="actions">
+
+    <a class="action green" href="#deposit">
+      <div class="action-icon">＋</div>
+      Deposit
+    </a>
+
+    <a class="action" href="#withdraw">
+      <div class="action-icon">↗</div>
+      Withdraw
+    </a>
+
+    <a class="action" href="/store.htm">
+      <div class="action-icon">▣</div>
+      Buy Cards
+    </a>
+
+    <a class="action" href="#history">
+      <div class="action-icon">↻</div>
+      History
+    </a>
+
+  </div>
+
+  <div class="dashboard-grid">
+
+    <section>
+      <div class="section-title">
+        <h3>My Virtual Cards</h3>
+      </div>
+
+      <div class="virtual-card">
+        <div class="card-brand">PrimePay</div>
+        <div class="card-caption">YOUR DIGITAL CARD SPACE</div>
+        <div style="margin-top:48px;font-size:12px;color:#ded4ff">
+          Secure digital payments
+        </div>
+      </div>
+
+      <div class="card-panel">
+        <div class="card-empty">
+          Your purchased cards will appear here after we connect your cards database.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h3>Deposit</h3>
+      </div>
+
+      <div class="deposit-box" id="deposit">
+        <h3 style="margin-top:0">Fund your wallet</h3>
+        <p>
+          Deposit instructions and payment proof submission will be connected
+          to your existing payment system.
+        </p>
+
+        <ol class="deposit-steps">
+          <li>Choose your deposit amount.</li>
+          <li>Follow the payment instructions.</li>
+          <li>Submit your payment proof.</li>
+          <li>Wait for payment verification.</li>
+        </ol>
+
+        <span class="status">Payment connection pending</span>
+      </div>
+
+      <div class="section-title" id="withdraw">
+        <h3>Withdrawals</h3>
+      </div>
+
+      <div class="deposit-box">
+        <p>
+          Your withdrawal options will appear here when your wallet and
+          withdrawal process are connected.
+        </p>
+        <span class="status">Coming soon</span>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="section-title" id="history">
+    <h3>Recent Transactions</h3>
+  </div>
+
+  <div class="card-panel">
+    <div class="card-empty">
+      Your transaction history will appear here after connecting your
+      existing transactions database.
+    </div>
+  </div>
+
+  <p id="message"></p>
+
+</main>
+
+<footer>PrimePay © 2026. All rights reserved.</footer>
+
+<nav class="bottom-nav">
+  <a class="active" href="dashboard.html">
+    <span>⌂</span>Home
+  </a>
+  <a href="/store.htm">
+    <span>▣</span>Store
+  </a>
+  <a href="#deposit">
+    <span>＋</span>Deposit
+  </a>
+  <a href="#history">
+    <span>↻</span>History
+  </a>
+  <a href="#withdraw">
+    <span>⇧</span>Withdraw
+  </a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://dvwcgdlbovmekrnkkqbf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CoX-AT53uO_TS1JFSc0YOA_JSIFhV3Y";
+
+const client = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function loadDashboard(){
+  const {data,error} = await client.auth.getSession();
+
+  if(error || !data.session){
+    window.location.replace("/login.htm");
+    return;
+  }
+
+  const user = data.session.user;
+
+  const name =
+    user.user_metadata?.full_name ||
+    user.email?.split("@")[0] ||
+    "User";
+
+  document.getElementById("userName").textContent = name;
+}
+
+document.getElementById("logout").addEventListener("click",async()=>{
+  const button = document.getElementById("logout");
+  button.disabled = true;
+  button.textContent = "Logging out...";
+
+  const {error} = await client.auth.signOut();
+
+  if(error){
+    document.getElementById("message").textContent = error.message;
+    button.disabled = false;
+    button.textContent = "Logout";
+    return;
+  }
+
+  window.location.replace("/login.htm");
+});
+
+loadDashboard();
+</script>
+
+</body>
+</html>
