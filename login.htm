@@ -74,7 +74,10 @@ const {error}=await supabaseClient.auth.signInWithPassword({
 email,password
 });
 if(error) throw error;
-window.location.href="store.htm";
+
+// Open the new PrimePay dashboard after login
+window.location.href="dashboard.html";
+
 }catch(error){
 message.textContent=error.message||"Login failed. Please try again.";
 }finally{
