@@ -5,88 +5,385 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PrimePay - Store</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif;padding-bottom:90px}
-header{padding:22px 18px;background:#101e30;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26384c}
+
+body{
+  margin:0;
+  background:#07111f;
+  color:white;
+  font-family:Arial,sans-serif;
+  padding-bottom:90px;
+}
+
+header{
+  padding:22px 18px;
+  background:#101e30;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #26384c;
+}
+
 .logo{font-size:27px;font-weight:bold;color:#d4af37}
 header a{color:#d4af37;text-decoration:none;font-size:14px}
+
 main{padding:25px 16px;max-width:1000px;margin:auto}
-.hero{margin:0 0 30px;background:linear-gradient(135deg,#151a22,#302511,#101e30);border:1px solid #a9892c;border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0008}
+
+.hero{
+  margin:0 0 30px;
+  background:linear-gradient(135deg,#151a22,#302511,#101e30);
+  border:1px solid #a9892c;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 12px 35px #0008;
+}
+
 .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover}
 .hero-caption{padding:18px 20px 22px}
 .hero-caption h2{color:#f5d76e;font-size:23px;margin:0 0 8px}
 .hero-caption p{color:#c4cbd5;margin:0;font-size:14px;line-height:1.5}
+
 .eyebrow{color:#d4af37;font-size:12px;font-weight:bold;letter-spacing:2px}
 h1{font-size:30px;margin:8px 0}
 .rate{color:#a8b6c8;font-size:14px;margin-bottom:25px}
-.filters{display:flex;gap:10px;overflow:auto;margin-bottom:20px;padding-bottom:3px}
-.filters button{white-space:nowrap;border:1px solid #34485e;background:#101e30;color:white;padding:11px 18px;border-radius:25px;font-weight:bold}
+
+.filters{display:flex;gap:10px;overflow:auto;margin-bottom:22px;padding-bottom:5px}
+.filters button{
+  white-space:nowrap;
+  border:1px solid #34485e;
+  background:#101e30;
+  color:white;
+  padding:11px 18px;
+  border-radius:25px;
+  font-weight:bold;
+  cursor:pointer;
+}
 .filters button.active{background:#d4af37;color:#07111f}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.card{background:#101e30;border:1px solid #3a3a2a;border-radius:20px;padding:22px;min-height:280px;box-shadow:0 8px 25px #0004}
-.cardtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.cardicon{width:70px;height:48px;border-radius:9px;background:linear-gradient(135deg,#f5d76e,#9b7515)}
-.status{font-size:11px;color:#d4af37;font-weight:bold}
-.card h3{font-size:21px;min-height:50px;margin:0 0 14px}
-.price{font-size:24px;font-weight:bold;margin:0 0 7px}
-.gh{color:#a8b6c8;font-size:14px;margin:0 0 20px}
-.number{font-size:13px;color:#8294aa;margin-bottom:20px;letter-spacing:2px}
-.buy{width:100%;border:0;border-radius:10px;padding:15px;background:#ff8c00;color:white;font-weight:bold;font-size:15px;cursor:pointer}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:22px;
+}
+
+/* PRODUCT BOX */
+.card{
+  background:#101e30;
+  border:1px solid #304258;
+  border-radius:22px;
+  padding:15px;
+  box-shadow:0 10px 28px #0005;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#d4af37;
+}
+
+/* COLOURED BANK CARD DESIGN */
+.bank-card{
+  height:185px;
+  width:100%;
+  border-radius:17px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow:0 12px 25px #0006;
+  isolation:isolate;
+}
+
+.bank-card:before{
+  content:"";
+  position:absolute;
+  width:230px;
+  height:230px;
+  border:1px solid #ffffff35;
+  border-radius:50%;
+  right:-65px;
+  top:-105px;
+  z-index:-1;
+}
+
+.bank-card:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border:1px solid #ffffff30;
+  border-radius:50%;
+  right:-35px;
+  bottom:-125px;
+  z-index:-1;
+}
+
+.gold{
+  background:linear-gradient(135deg,#f8e7a0 0%,#c69a32 45%,#72500c 100%);
+  color:#211704;
+}
+
+.violet{
+  background:linear-gradient(135deg,#c9a5ff 0%,#7540c8 50%,#32145e 100%);
+  color:white;
+}
+
+.red{
+  background:linear-gradient(135deg,#ff7777 0%,#bd172d 48%,#580817 100%);
+  color:white;
+}
+
+.purple{
+  background:linear-gradient(135deg,#9c8cff 0%,#5141b9 50%,#21164f 100%);
+  color:white;
+}
+
+.blue{
+  background:linear-gradient(135deg,#8ce4ff 0%,#1678bd 50%,#07345e 100%);
+  color:white;
+}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card-brand{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.card-chip{
+  width:38px;
+  height:29px;
+  border-radius:6px;
+  background:linear-gradient(135deg,#fff3b8,#c5a34d);
+  border:1px solid #ffffff70;
+  position:relative;
+}
+
+.card-chip:after{
+  content:"";
+  position:absolute;
+  left:12px;
+  top:0;
+  height:100%;
+  border-left:1px solid #94762d;
+}
+
+.card-chip:before{
+  content:"";
+  position:absolute;
+  top:13px;
+  left:0;
+  width:100%;
+  border-top:1px solid #94762d;
+}
+
+.card-middle{
+  font-size:18px;
+  font-weight:bold;
+  letter-spacing:3px;
+  text-shadow:0 1px 3px #0002;
+}
+
+.card-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+
+.card-holder{
+  font-size:10px;
+  letter-spacing:1.5px;
+  font-weight:bold;
+}
+
+.card-type{
+  font-size:19px;
+  font-weight:900;
+  font-style:italic;
+}
+
+.card-status{
+  font-size:10px;
+  font-weight:bold;
+  margin-bottom:14px;
+  letter-spacing:1px;
+  color:#b9c8d8;
+}
+
+.product-info{padding:17px 7px 5px}
+
+.product-info h3{
+  font-size:20px;
+  margin:0 0 13px;
+  min-height:45px;
+}
+
+.price{font-size:25px;font-weight:bold;margin:0 0 7px}
+.gh{color:#a8b6c8;font-size:14px;margin:0 0 13px}
+
+.purchase-price{
+  color:#d4af37;
+  font-size:14px;
+  font-weight:bold;
+  margin:0 0 18px;
+}
+
+.buy{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:15px;
+  background:#ff8c00;
+  color:white;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.buy:active{transform:scale(.98)}
+
 .empty{display:none;color:#a8b6c8;text-align:center;padding:25px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#101e30;border-top:1px solid #26384c;display:flex;justify-content:space-around;padding:13px 3px;z-index:100}
-nav a{color:#a8b6c8;text-decoration:none;text-align:center;font-size:11px;flex:1}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#101e30;
+  border-top:1px solid #26384c;
+  display:flex;
+  justify-content:space-around;
+  padding:13px 3px;
+  z-index:100;
+}
+
+nav a{
+  color:#a8b6c8;
+  text-decoration:none;
+  text-align:center;
+  font-size:11px;
+  flex:1;
+}
+
 nav a:first-child{color:#d4af37}
 nav span{display:block;font-size:20px;margin-bottom:4px}
 
 /* PAYMENT POPUP */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;overflow-y:auto;align-items:flex-end}
-.modal{width:100%;background:#090d12;border:1px solid #8c7028;border-radius:28px 28px 0 0;padding:30px 20px 40px;min-height:80vh}
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.88);
+  z-index:300;
+  overflow-y:auto;
+  align-items:flex-end;
+}
+
+.modal{
+  width:100%;
+  background:#090d12;
+  border:1px solid #8c7028;
+  border-radius:28px 28px 0 0;
+  padding:30px 20px 40px;
+  min-height:80vh;
+}
+
 .modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
 .modal h2{font-size:27px;margin:0 0 12px;color:#f5d76e}
 .modal-subtitle{color:#aeb0bb;font-size:15px;line-height:1.5;margin:0 0 25px}
 .close-x{background:none;border:0;color:#b9bac2;font-size:36px;cursor:pointer;padding:0;line-height:1}
-.payment-summary{border:1px solid #292e35;border-radius:20px;padding:20px;background:#0c1015;margin-bottom:24px}
+
+.payment-summary{
+  border:1px solid #292e35;
+  border-radius:20px;
+  padding:20px;
+  background:#0c1015;
+  margin-bottom:24px;
+}
+
 .summary-label{color:#aeb0bb;font-size:14px;margin-bottom:8px}
 .summary-value{font-size:19px;font-weight:bold}
 .divider{height:1px;background:#292e35;margin:20px 0}
 .amount{font-size:36px;color:#d4af37;font-weight:bold}
-.instructions{background:#111e30;border:1px solid #66531e;border-radius:16px;padding:18px;margin-bottom:22px}
+
+.instructions{
+  background:#111e30;
+  border:1px solid #66531e;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:22px;
+}
+
 .instructions h3{color:#f5d76e;margin:0 0 12px}
 .instructions p{color:#d0d4dc;font-size:14px;line-height:1.7;margin:8px 0}
 .momo-number{font-size:28px;color:#d4af37;font-weight:bold;text-align:center;margin:16px 0}
-.copy-btn{width:100%;padding:14px;border:1px solid #d4af37;border-radius:10px;background:#191609;color:#f5d76e;font-weight:bold;font-size:15px}
+
+.copy-btn{
+  width:100%;
+  padding:14px;
+  border:1px solid #d4af37;
+  border-radius:10px;
+  background:#191609;
+  color:#f5d76e;
+  font-weight:bold;
+  font-size:15px;
+}
+
 .form-title{font-size:13px;letter-spacing:2px;color:#b7b8c0;font-weight:bold;margin:22px 0 12px}
-.modal input{width:100%;padding:17px;border-radius:12px;border:1px solid #30343a;background:#0c1015;color:white;font-size:17px;outline:none}
+
+.modal input{
+  width:100%;
+  padding:17px;
+  border-radius:12px;
+  border:1px solid #30343a;
+  background:#0c1015;
+  color:white;
+  font-size:17px;
+  outline:none;
+}
+
 .modal input:focus{border-color:#d4af37}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
 .cancel{border:1px solid #30343a;background:#0c1015;color:white;padding:16px;border-radius:12px;font-size:15px;font-weight:bold}
 .confirm{border:0;background:#ff8c00;color:#111;padding:16px;border-radius:12px;font-size:15px;font-weight:bold}
 #result{margin-top:18px;color:#f5d76e;line-height:1.6;font-size:14px}
 .notice{color:#8e929d;font-size:12px;line-height:1.6;margin-top:18px}
+
 @media(max-width:600px){
-main{padding:22px 14px}
-.products{grid-template-columns:1fr;gap:16px}
-.card{min-height:260px}
-.hero img{max-height:300px}
-.modal{padding:28px 18px 35px}
+  main{padding:22px 14px}
+  .products{grid-template-columns:1fr;gap:18px}
+  .bank-card{height:190px}
+  .hero img{max-height:300px}
+  .modal{padding:28px 18px 35px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="logo">PrimePay</div>
-<a href="#" onclick="logout()">Log out</a>
+  <div class="logo">PrimePay</div>
+  <a href="#" onclick="logout()">Log out</a>
 </header>
 
 <main>
+
 <section class="hero">
-<img src="CF9DC762-9160-4E9E-A78E-6A3AFAC4197C.png" alt="PrimePay premium gold payment card">
-<div class="hero-caption">
-<h2>PrimePay — Your Money, Smarter, Simpler.</h2>
-<p>Discover a smarter way to shop and manage your digital payments.</p>
-</div>
+  <img src="CF9DC762-9160-4E9E-A78E-6A3AFAC4197C.png" alt="PrimePay premium gold payment card">
+  <div class="hero-caption">
+    <h2>PrimePay — Your Money, Smarter, Simpler.</h2>
+    <p>Discover a smarter way to shop and manage your digital payments.</p>
+  </div>
 </section>
 
 <div class="eyebrow">STORE</div>
@@ -94,125 +391,206 @@ main{padding:22px 14px}
 <p class="rate">Live rate: 1 USD = GHS 14.50</p>
 
 <div class="filters">
-<button class="active" onclick="filterCards('All',this)">All</button>
-<button onclick="filterCards('Visa',this)">Visa</button>
-<button onclick="filterCards('Mastercard',this)">Mastercard</button>
-<button onclick="filterCards('Gift Cards',this)">Gift Cards</button>
+  <button class="active" onclick="filterCards('All',this)">All</button>
+  <button onclick="filterCards('Visa',this)">Visa</button>
+  <button onclick="filterCards('Mastercard',this)">Mastercard</button>
+  <button onclick="filterCards('Gift Cards',this)">Gift Cards</button>
 </div>
 
 <div class="products" id="products">
 
+<!-- AMAZON GOLD -->
 <div class="card" data-category="Gift Cards">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Amazon Gift Card</h3>
-<p class="price">$411.20</p>
-<p class="gh">GHS equivalent: GHS 5,962</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 350</p>
-<button class="buy" onclick="checkout('Amazon Gift Card','$411.20','GHS 5,962',350)">Pay now</button>
+  <div class="bank-card gold">
+    <div class="card-top">
+      <div class="card-brand">AMAZON</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">PRIMEPAY GIFT CARD</div>
+      <div class="card-type">GIFT</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Amazon Gift Card</h3>
+    <p class="price">$411.20</p>
+    <p class="gh">GHS equivalent: GHS 5,962</p>
+    <p class="purchase-price">Purchase price: GHS 350</p>
+    <button class="buy" onclick="checkout('Amazon Gift Card','$411.20','GHS 5,962',350)">Pay now</button>
+  </div>
 </div>
 
+<!-- QUICK SILVER VIOLET -->
 <div class="card" data-category="Mastercard">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Quick Silver 2 Card</h3>
-<p class="price">$651.00</p>
-<p class="gh">GHS equivalent: GHS 9,440</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 500</p>
-<button class="buy" onclick="checkout('Quick Silver 2 Card','$651.00','GHS 9,440',500)">Pay now</button>
+  <div class="bank-card violet">
+    <div class="card-top">
+      <div class="card-brand">QUICKSILVER</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">PRIMEPAY MEMBER</div>
+      <div class="card-type">Mastercard</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Quick Silver 2 Card</h3>
+    <p class="price">$651.00</p>
+    <p class="gh">GHS equivalent: GHS 9,440</p>
+    <p class="purchase-price">Purchase price: GHS 500</p>
+    <button class="buy" onclick="checkout('Quick Silver 2 Card','$651.00','GHS 9,440',500)">Pay now</button>
+  </div>
 </div>
 
+<!-- QUICK SILVER RED -->
 <div class="card" data-category="Mastercard">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Quick Silver Red Card</h3>
-<p class="price">$2,200.00</p>
-<p class="gh">GHS equivalent: GHS 31,900</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 750</p>
-<button class="buy" onclick="checkout('Quick Silver Red Card','$2,200.00','GHS 31,900',750)">Pay now</button>
+  <div class="bank-card red">
+    <div class="card-top">
+      <div class="card-brand">QUICKSILVER</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">PRIMEPAY MEMBER</div>
+      <div class="card-type">Mastercard</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Quick Silver Red Card</h3>
+    <p class="price">$2,200.00</p>
+    <p class="gh">GHS equivalent: GHS 31,900</p>
+    <p class="purchase-price">Purchase price: GHS 750</p>
+    <button class="buy" onclick="checkout('Quick Silver Red Card','$2,200.00','GHS 31,900',750)">Pay now</button>
+  </div>
 </div>
 
+<!-- VISA GOLD -->
 <div class="card" data-category="Visa">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Visa Business Gold Card</h3>
-<p class="price">$702.00</p>
-<p class="gh">GHS equivalent: GHS 10,179</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 1,000</p>
-<button class="buy" onclick="checkout('Visa Business Gold Card','$702.00','GHS 10,179',1000)">Pay now</button>
+  <div class="bank-card gold">
+    <div class="card-top">
+      <div class="card-brand">PrimePay</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">BUSINESS MEMBER</div>
+      <div class="card-type">VISA</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Visa Business Gold Card</h3>
+    <p class="price">$702.00</p>
+    <p class="gh">GHS equivalent: GHS 10,179</p>
+    <p class="purchase-price">Purchase price: GHS 1,000</p>
+    <button class="buy" onclick="checkout('Visa Business Gold Card','$702.00','GHS 10,179',1000)">Pay now</button>
+  </div>
 </div>
 
+<!-- VISA SIGNATURE PURPLE -->
 <div class="card" data-category="Visa">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Visa Signature Credit Card</h3>
-<p class="price">$234.00</p>
-<p class="gh">GHS equivalent: GHS 3,393</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 1,250</p>
-<button class="buy" onclick="checkout('Visa Signature Credit Card','$234.00','GHS 3,393',1250)">Pay now</button>
+  <div class="bank-card purple">
+    <div class="card-top">
+      <div class="card-brand">PrimePay</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">SIGNATURE MEMBER</div>
+      <div class="card-type">VISA</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Visa Signature Credit Card</h3>
+    <p class="price">$234.00</p>
+    <p class="gh">GHS equivalent: GHS 3,393</p>
+    <p class="purchase-price">Purchase price: GHS 1,250</p>
+    <button class="buy" onclick="checkout('Visa Signature Credit Card','$234.00','GHS 3,393',1250)">Pay now</button>
+  </div>
 </div>
 
+<!-- YOUTH VISA BLUE -->
 <div class="card" data-category="Visa">
-<div class="cardtop"><div class="cardicon"></div><span class="status">● ACTIVE</span></div>
-<h3>Youth Visa Card</h3>
-<p class="price">$1,570.80</p>
-<p class="gh">GHS equivalent: GHS 22,777</p>
-<div class="number">•••• •••• •••• ••••</div>
-<p class="gh">Purchase price: GHS 1,500</p>
-<button class="buy" onclick="checkout('Youth Visa Card','$1,570.80','GHS 22,777',1500)">Pay now</button>
+  <div class="bank-card blue">
+    <div class="card-top">
+      <div class="card-brand">PrimePay</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-middle">•••• &nbsp; •••• &nbsp; ••••</div>
+    <div class="card-bottom">
+      <div class="card-holder">YOUTH MEMBER</div>
+      <div class="card-type">VISA</div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="card-status">● AVAILABLE</div>
+    <h3>Youth Visa Card</h3>
+    <p class="price">$1,570.80</p>
+    <p class="gh">GHS equivalent: GHS 22,777</p>
+    <p class="purchase-price">Purchase price: GHS 1,500</p>
+    <button class="buy" onclick="checkout('Youth Visa Card','$1,570.80','GHS 22,777',1500)">Pay now</button>
+  </div>
 </div>
 
 </div>
+
 <p class="empty" id="empty">No cards in this category.</p>
 </main>
 
 <nav>
-<a href="store.htm"><span>▣</span>Store</a>
-<a href="deposit.htm"><span>＋</span>Deposit</a>
-<a href="#"><span>♧</span>Redeemed</a>
-<a href="wallet.htm"><span>◉</span>Wallet</a>
-<a href="#"><span>↻</span>History</a>
+  <a href="store.htm"><span>▣</span>Store</a>
+  <a href="deposit.htm"><span>＋</span>Deposit</a>
+  <a href="#"><span>♧</span>Redeemed</a>
+  <a href="wallet.htm"><span>◉</span>Wallet</a>
+  <a href="#"><span>↻</span>History</a>
 </nav>
 
-<!-- PAYMENT INSTRUCTIONS POPUP -->
+<!-- PAYMENT POPUP -->
 <div class="overlay" id="checkoutBox">
 <div class="modal">
-<div class="modal-top">
-<div>
-<h2 id="checkoutTitle">Complete your payment</h2>
-<p class="modal-subtitle">Follow the instructions below to pay for your selected product.</p>
-</div>
-<button class="close-x" onclick="closeCheckout()">×</button>
-</div>
 
-<div class="payment-summary">
-<div class="summary-label">Selected product</div>
-<div class="summary-value" id="selectedProduct"></div>
-<div class="divider"></div>
-<div class="summary-label">Amount to pay</div>
-<div class="amount" id="productAmount"></div>
-</div>
+  <div class="modal-top">
+    <div>
+      <h2 id="checkoutTitle">Complete your payment</h2>
+      <p class="modal-subtitle">Follow the instructions below to pay for your selected product.</p>
+    </div>
+    <button class="close-x" onclick="closeCheckout()">×</button>
+  </div>
 
-<div class="instructions">
-<h3>MTN Mobile Money Payment</h3>
-<p>1. Send the exact amount shown above to this MTN number:</p>
-<div class="momo-number">0535422231</div>
-<button class="copy-btn" onclick="copyNumber()">COPY MTN NUMBER</button>
-<p>2. Dial <b>*170#</b> on your phone.</p>
-<p>3. Select Transfer Money and follow the instructions to send the payment.</p>
-<p>4. Return to PrimePay and enter your MoMo transaction ID below.</p>
-</div>
+  <div class="payment-summary">
+    <div class="summary-label">Selected product</div>
+    <div class="summary-value" id="selectedProduct"></div>
+    <div class="divider"></div>
+    <div class="summary-label">Amount to pay</div>
+    <div class="amount" id="productAmount"></div>
+  </div>
 
-<div class="form-title">MOMO TRANSACTION ID</div>
-<input id="reference" type="text" placeholder="Enter your transaction ID">
+  <div class="instructions">
+    <h3>MTN Mobile Money Payment</h3>
+    <p>1. Send the exact amount shown above to this MTN number:</p>
+    <div class="momo-number">0535422231</div>
+    <button class="copy-btn" onclick="copyNumber()">COPY MTN NUMBER</button>
+    <p>2. Dial <b>*170#</b> on your phone.</p>
+    <p>3. Select Transfer Money and follow the instructions to send the payment.</p>
+    <p>4. Return to PrimePay and enter your MoMo transaction ID below.</p>
+  </div>
 
-<div class="actions">
-<button class="cancel" onclick="closeCheckout()">Cancel</button>
-<button class="confirm" onclick="submitPayment()">SUBMIT</button>
-</div>
+  <div class="form-title">MOMO TRANSACTION ID</div>
+  <input id="reference" type="text" placeholder="Enter your transaction ID">
 
-<p id="result"></p>
-<p class="notice">Never share your Mobile Money PIN or OTP. Your payment must be checked and confirmed before your order can be fulfilled. This form is currently a demonstration and does not send payment details to PrimePay or confirm an order.</p>
+  <div class="actions">
+    <button class="cancel" onclick="closeCheckout()">Cancel</button>
+    <button class="confirm" onclick="submitPayment()">SUBMIT</button>
+  </div>
+
+  <p id="result"></p>
+  <p class="notice">Never share your Mobile Money PIN or OTP. Your payment must be checked and confirmed before your order can be fulfilled. This form is currently a demonstration and does not send payment details to PrimePay or confirm an order.</p>
+
 </div>
 </div>
 
@@ -221,56 +599,60 @@ let selectedProduct="";
 let selectedAmount=0;
 
 function filterCards(category,button){
-document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
-let shown=0;
-document.querySelectorAll('.card').forEach(card=>{
-const visible=category==='All'||card.dataset.category===category;
-card.style.display=visible?'block':'none';
-if(visible)shown++;
-});
-document.getElementById('empty').style.display=shown?'none':'block';
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+
+  let shown=0;
+
+  document.querySelectorAll('.card').forEach(card=>{
+    const visible=category==='All'||card.dataset.category===category;
+    card.style.display=visible?'block':'none';
+    if(visible)shown++;
+  });
+
+  document.getElementById('empty').style.display=shown?'none':'block';
 }
 
 function checkout(product,cardValue,cediValue,amount){
-selectedProduct=product;
-selectedAmount=amount;
-document.getElementById('checkoutTitle').textContent='Complete your payment';
-document.getElementById('selectedProduct').textContent=product;
-document.getElementById('productAmount').textContent='GHS '+amount.toLocaleString('en-GH');
-document.getElementById('reference').value='';
-document.getElementById('result').textContent='';
-document.getElementById('checkoutBox').style.display='flex';
+  selectedProduct=product;
+  selectedAmount=amount;
+
+  document.getElementById('checkoutTitle').textContent='Complete your payment';
+  document.getElementById('selectedProduct').textContent=product;
+  document.getElementById('productAmount').textContent='GHS '+amount.toLocaleString('en-GH');
+  document.getElementById('reference').value='';
+  document.getElementById('result').textContent='';
+  document.getElementById('checkoutBox').style.display='flex';
 }
 
 function closeCheckout(){
-document.getElementById('checkoutBox').style.display='none';
+  document.getElementById('checkoutBox').style.display='none';
 }
 
 function copyNumber(){
-if(navigator.clipboard && navigator.clipboard.writeText){
-navigator.clipboard.writeText('0535422231')
-.then(()=>alert('MTN number copied!'))
-.catch(()=>alert('Please copy this number: 0535422231'));
-}else{
-alert('Please copy this number: 0535422231');
-}
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText('0535422231')
+    .then(()=>alert('MTN number copied!'))
+    .catch(()=>alert('Please copy this number: 0535422231'));
+  }else{
+    alert('Please copy this number: 0535422231');
+  }
 }
 
 function submitPayment(){
-const reference=document.getElementById('reference').value.trim();
-const result=document.getElementById('result');
+  const reference=document.getElementById('reference').value.trim();
+  const result=document.getElementById('result');
 
-if(!reference){
-result.textContent='Please enter your MoMo transaction ID.';
-return;
-}
+  if(!reference){
+    result.textContent='Please enter your MoMo transaction ID.';
+    return;
+  }
 
-result.textContent='Your transaction ID has been entered for '+selectedProduct+'. This demo form has not sent your details to PrimePay. Please do not treat this as a completed order.';
+  result.textContent='Your transaction ID has been entered for '+selectedProduct+'. This demo form has not sent your details to PrimePay. Please do not treat this as a completed order.';
 }
 
 function logout(){
-window.location.href='login.htm';
+  window.location.href='login.htm';
 }
 </script>
 
